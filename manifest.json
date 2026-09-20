@@ -1,0 +1,16 @@
+{
+  "name": "StreamSink",
+  "short_name": "StreamSink",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#070c16",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
