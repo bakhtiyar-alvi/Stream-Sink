@@ -1,4 +1,4 @@
-const CACHE_NAME = "streamsink-v1";
+const CACHE_NAME = "streamsink-v2";
 
 self.addEventListener("install", (e) => {
   self.skipWaiting();
