@@ -1,11 +1,11 @@
 /**
- * StreamSink — Production Service Worker
- * Handles offline PWA shell caching, notifications, and strict media bypass.
+ * StreamSink — Production Service Worker (v3)
+ * Provides offline PWA shell caching and strict video/proxy bypass.
  */
 
-const CACHE_NAME = "streamsink-core-v5";
+// Bumped version forces Chrome to immediately install the updated index.html
+const CACHE_NAME = "streamsink-core-v6";
 
-// Static App Shell assets to pre-cache on install
 const PRECACHE_ASSETS = [
   "./",
   "./index.html",
@@ -18,23 +18,22 @@ const PRECACHE_ASSETS = [
   "https://cdn.jsdelivr.net/npm/streamsaver@2.0.6/StreamSaver.min.js"
 ];
 
-// Media extensions & streaming proxy patterns that must NEVER be cached
+// Media extensions & proxy endpoints that must NEVER be stored in the SW cache
 const STREAM_BYPASS_REGEX = /\.(m3u8|ts|m4s|mp4|aac|mp3|webm|ogg)($|\?)/i;
 const PROXY_BYPASS_REGEX = /(allorigins|workers\.dev|\?url=)/i;
 
 /**
- * Installation: Cache core app shell and immediately activate
+ * Install: Cache core UI assets
  */
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      // Use Promise.allSettled so a missing local icon won't break installation
       const cachePromises = PRECACHE_ASSETS.map(async (url) => {
         try {
           const res = await fetch(url, { mode: url.startsWith("http") ? "cors" : "same-origin" });
           if (res.ok) await cache.put(url, res);
         } catch {
-          // Gracefully continue if an asset fails to fetch during install
+          // Gracefully continue if an optional asset (like title.png) is missing
         }
       });
       await Promise.all(cachePromises);
@@ -43,7 +42,7 @@ self.addEventListener("install", (event) => {
 });
 
 /**
- * Activation: Purge legacy caches and take control of all clients
+ * Activate: Instantly delete legacy caches (v1, v2) and claim clients
  */
 self.addEventListener("activate", (event) => {
   event.waitUntil(
@@ -60,22 +59,22 @@ self.addEventListener("activate", (event) => {
 });
 
 /**
- * Network Routing & Fetch Interception
+ * Network Fetch Interception
  */
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   const url = new URL(req.url);
 
-  // 1. Never intercept non-GET requests
+  // 1. Only intercept standard GET requests
   if (req.method !== "GET") return;
 
-  // 2. Never touch StreamSaver internal pipes or Service Worker mitm endpoints
+  // 2. Do not intercept StreamSaver internal pipes
   if (url.pathname.includes("streamsaver") || url.pathname.includes("stream-saver-sw")) {
     return;
   }
 
-  // 3. Strict bypass for media streams, video segments, range requests, and CORS proxies
-  // This prevents high-bandwidth video downloads from exhausting storage quota
+  // 3. Strict bypass for video segments and Cloudflare proxy requests
+  // Ensures video streams bypass cache storage directly to your download pipe
   if (
     STREAM_BYPASS_REGEX.test(url.pathname) ||
     STREAM_BYPASS_REGEX.test(url.search) ||
@@ -85,42 +84,36 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // 4. Stale-While-Revalidate strategy for app shell assets and scripts
+  // 4. Stale-While-Revalidate for app shell
   event.respondWith(
     caches.open(CACHE_NAME).then(async (cache) => {
       const cachedResponse = await cache.match(req);
 
-      const networkFetchPromise = fetch(req).then((networkResponse) => {
+      const networkFetch = fetch(req).then((networkResponse) => {
         if (networkResponse && networkResponse.status === 200) {
           cache.put(req, networkResponse.clone());
         }
         return networkResponse;
-      }).catch(() => {
-        // Network failed (offline); fallback to cache
-        return cachedResponse;
-      });
+      }).catch(() => cachedResponse);
 
-      // Serve from cache first if present, otherwise wait for network
-      return cachedResponse || networkFetchPromise;
+      return cachedResponse || networkFetch;
     })
   );
 });
 
 /**
- * Notification Click Handler: Focus existing tab or open the app
+ * Notification Click Handler
  */
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
 
   event.waitUntil(
     self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
-      // If a tab is already open, bring it to focus
       for (const client of clientList) {
         if (client.url && "focus" in client) {
           return client.focus();
         }
       }
-      // Otherwise open a new window
       if (self.clients.openWindow) {
         return self.clients.openWindow("./");
       }
