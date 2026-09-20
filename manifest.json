@@ -1,8 +1,11 @@
 {
-  "name": "StreamSink",
+  "name": "StreamSink — Web Video Downloader",
   "short_name": "StreamSink",
+  "description": "Client-side HLS video downloader, transmuxer, and player",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#070c16",
   "theme_color": "#0f172a",
   "icons": [
@@ -10,7 +13,8 @@
       "src": "logo.png",
       "sizes": "192x192 512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
-  ]
+  ],
+  "categories": ["utilities", "multimedia"]
 }
