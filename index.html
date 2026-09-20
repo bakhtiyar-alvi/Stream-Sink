@@ -42,7 +42,7 @@
     body { background: var(--bg); color: var(--text); padding: 12px; display: flex; justify-content: center; min-height: 100vh; }
     .container { width: 100%; max-width: 520px; display: flex; flex-direction: column; gap: 12px; }
 
-    /* Top Brand Header */
+    /* Header */
     header { display: flex; justify-content: space-between; align-items: center; padding: 4px 2px; }
     .header-brand { display: flex; align-items: center; gap: 10px; }
     
@@ -78,7 +78,7 @@
     }
     .icon-btn-ghost:hover { border-color: var(--border-focus); color: #fff; }
 
-    /* 4-Tab Navigation Grid */
+    /* Nav Grid */
     .nav-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
     .nav-item {
       background: var(--card-bg); border: 1px solid var(--border); border-radius: 11px;
@@ -100,7 +100,7 @@
     .card-header-clean { display: flex; justify-content: space-between; align-items: center; }
     .card-title-label { font-size: 0.85rem; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px; }
 
-    /* Inputs & Form Elements */
+    /* Inputs */
     .input-wrapper { position: relative; width: 100%; }
     input[type="text"], input[type="number"], select, textarea {
       width: 100%; background: var(--card-sub); border: 1px solid var(--border); color: #fff;
@@ -132,7 +132,7 @@
     .btn-danger-pill { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger); color: #f87171; border-radius: 8px; padding: 4px 10px; font-size: 0.72rem; }
     .btn-warning-pill { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--warning); color: #fbbf24; border-radius: 8px; padding: 4px 10px; font-size: 0.72rem; }
 
-    /* Stream Info Grid */
+    /* Stream Specs */
     .info-specs-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--card-sub);
       padding: 12px; border-radius: 11px; border: 1px solid var(--border);
@@ -167,11 +167,11 @@
       padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.72rem; font-family: var(--font-mono); color: #cbd5e1;
     }
 
-    /* Notice Banners */
+    /* Notices */
     .notice-box { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--warning); border-radius: 8px; padding: 10px; font-size: 0.8rem; display: flex; flex-direction: column; gap: 8px; }
     .resume-box { background: var(--green-glow); border: 1px solid var(--green); border-radius: 8px; padding: 10px; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
 
-    /* Collapsible Debug Drawer */
+    /* Debug Drawer */
     details.debug-drawer { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
     details.debug-drawer summary {
       padding: 12px 14px; font-size: 0.82rem; font-weight: 600; cursor: pointer; color: var(--text-muted);
@@ -194,7 +194,7 @@
 <body>
 
 <div class="container">
-  <!-- Top Brand Header with Logo & Title[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)[span_2](start_span)[span_2](end_span) -->
+  <!-- Top Brand Header -->
   <header>
     <div class="header-brand">
       <div class="logo-box">
@@ -236,7 +236,7 @@
     </div>
   </header>
 
-  <!-- 4-Tab Navigation Grid[span_3](start_span)[span_3](end_span) -->
+  <!-- Navigation Tabs -->
   <div class="nav-grid">
     <div class="nav-item active" id="tabMain" onclick="switchView('main')">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -260,7 +260,7 @@
 
   <!-- VIEW 1: Main Downloader Shell -->
   <main id="mainView" style="display: flex; flex-direction: column; gap: 12px;">
-    <!-- 1. M3U8 URL Card[span_4](start_span)[span_4](end_span) -->
+    <!-- 1. M3U8 URL Card -->
     <div class="card">
       <div class="card-title-label">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
@@ -279,7 +279,7 @@
       </div>
     </div>
 
-    <!-- 2. Stream Information Specs[span_5](start_span)[span_5](end_span) -->
+    <!-- 2. Stream Information Specs -->
     <div class="card" id="streamInfoCard" style="display: none;">
       <div class="card-header-clean">
         <div class="card-title-label">
@@ -325,7 +325,7 @@
       </div>
     </div>
 
-    <!-- 3. Smart Selectors & Download Trigger[span_6](start_span)[span_6](end_span) -->
+    <!-- 3. Smart Selectors & Download Trigger -->
     <div class="card" id="configCard" style="display: none;">
       <div class="selectors-row">
         <div class="field-box">
@@ -348,7 +348,7 @@
         </div>
       </div>
 
-      <!-- Custom File Name Input Field -->
+      <!-- Custom File Name -->
       <div class="field-box">
         <div class="field-label">✏️ Custom File Name (Output)</div>
         <input type="text" id="filenameInput" placeholder="Enter custom filename..." />
@@ -364,7 +364,7 @@
         </select>
       </div>
 
-      <!-- Custom Trim / Range -->
+      <!-- Custom Trim -->
       <div class="selectors-row" id="customRangeGroup">
         <div class="field-box">
           <div class="field-label">Start Segment</div>
@@ -383,7 +383,7 @@
         <button class="btn btn-secondary-flat" style="width:auto; padding:2px 8px; font-size:0.72rem;" onclick="clearActiveStreamCache()">Purge</button>
       </div>
 
-      <!-- Hero Action Button[span_7](start_span)[span_7](end_span) -->
+      <!-- Action Button -->
       <button class="btn btn-hero" onclick="handlePrimaryAction()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
         <span>Start Download</span>
@@ -394,7 +394,7 @@
       </button>
     </div>
 
-    <!-- 4. Progress Card[span_8](start_span)[span_8](end_span) -->
+    <!-- 4. Progress Card -->
     <div class="card" id="progressCard" style="display: none;">
       <div class="progress-status-head">
         <div style="display:flex; align-items:center; gap:8px;">
@@ -408,7 +408,7 @@
         <div class="progress-bar-fill" id="progressBar"></div>
       </div>
 
-      <!-- Live Metrics Pill[span_9](start_span)[span_9](end_span) -->
+      <!-- Live Metrics Pill -->
       <div class="progress-metrics-pill">
         <span id="metricSegments">📄 Chunk 0 / 0</span>
         <span id="metricSpeed">⚡ 0.00 MB/s</span>
@@ -436,7 +436,7 @@
       </div>
     </div>
 
-    <!-- 5. Debug Drawer[span_10](start_span)[span_10](end_span) -->
+    <!-- 5. Debug Drawer -->
     <details class="debug-drawer" open>
       <summary>
         <div style="display:flex; align-items:center; gap:6px;">
@@ -479,9 +479,8 @@
     </div>
   </main>
 
-  <!-- VIEW 4: Settings & Storage Inspector -->
+  <!-- VIEW 4: Settings & Storage Footprint Inspector -->
   <main id="settingsView" style="display: none; flex-direction: column; gap: 12px;">
-    <!-- Scoped Browser Storage Footprint Card -->
     <div class="card">
       <div class="card-header-clean">
         <div class="card-title-label">💾 Browser Storage Footprint</div>
@@ -520,15 +519,15 @@
       <div class="field-box">
         <div class="field-label">CORS Proxy Mode</div>
         <select id="corsMode" onchange="handleCorsModeChange()">
-          <option value="direct">Direct (Standard CORS allowed)</option>
-          <option value="custom">My Cloudflare Worker</option>
+          <option value="custom" selected>Cloudflare Worker Proxy (Recommended)</option>
+          <option value="direct">Direct (No Proxy)</option>
           <option value="public">Public Proxy Fallback (allorigins)</option>
         </select>
       </div>
 
-      <div id="workerWrapper" class="field-box" style="display: none;">
+      <div id="workerWrapper" class="field-box">
         <div class="field-label">Cloudflare Worker Base URL</div>
-        <input type="text" id="workerUrl" placeholder="https://my-worker.workers.dev" />
+        <input type="text" id="workerUrl" value="https://streamsink-proxy.bakhtiyaralvi03.workers.dev/" />
       </div>
 
       <div class="field-box">
@@ -557,7 +556,7 @@
   </div>
 </div>
 
-<!-- MODAL 2: Delete Confirmation with Disk Removal Checkbox -->
+<!-- MODAL 2: Delete Confirmation -->
 <div class="modal" id="deleteConfirmModal">
   <div class="modal-content">
     <div class="card-title-label" style="color: var(--danger);">Confirm Deletion</div>
@@ -573,7 +572,7 @@
   </div>
 </div>
 
-<!-- MODAL 3: Update Stream URL (Token Expiry Fix) -->
+<!-- MODAL 3: Update Stream URL -->
 <div class="modal" id="updateUrlModal">
   <div class="modal-content">
     <div class="card-title-label" style="color: #fff;">Update Stream URL / Fresh Tokens</div>
@@ -605,21 +604,45 @@ export default {
         }
       });
     }
-    const url = new URL(request.url).searchParams.get("url");
-    if (!url) return new Response("Missing url param", { status: 400 });
-    try {
-      const upstream = await fetch(url, {
-        headers: {
-          "User-Agent": request.headers.get("User-Agent") || "Mozilla/5.0",
-          "Range": request.headers.get("Range") || ""
-        }
+
+    const targetUrl = new URL(request.url).searchParams.get("url");
+    if (!targetUrl) {
+      return new Response("StreamSink CORS Proxy is Online.", {
+        status: 200,
+        headers: { "Content-Type": "text/plain; charset=utf-8" }
       });
+    }
+
+    try {
+      const parsedTarget = new URL(targetUrl);
+      let referer = `https://${parsedTarget.hostname}/`;
+      if (targetUrl.includes("t8cdn.com") || targetUrl.includes("phncdn.com")) {
+        referer = "https://www.pornhub.com/";
+      }
+
+      const reqHeaders = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Referer": referer
+      };
+
+      if (request.headers.has("Range")) {
+        reqHeaders["Range"] = request.headers.get("Range");
+      }
+
+      const upstream = await fetch(targetUrl, { headers: reqHeaders });
       const headers = new Headers(upstream.headers);
       headers.set("Access-Control-Allow-Origin", "*");
       headers.set("Access-Control-Expose-Headers", "Content-Length,Content-Range,Accept-Ranges");
-      return new Response(upstream.body, { status: upstream.status, headers });
-    } catch (e) {
-      return new Response(e.message, { status: 502 });
+
+      return new Response(upstream.body, {
+        status: upstream.status,
+        headers
+      });
+    } catch (err) {
+      return new Response("Upstream Fetch Error: " + err.message, {
+        status: 502,
+        headers: { "Access-Control-Allow-Origin": "*" }
+      });
     }
   }
 };
@@ -642,7 +665,7 @@ if ("serviceWorker" in navigator) {
 
 /**
  * -----------------------------------------------------------------------------
- * 1. Background System Hooks (Screen WakeLock & Native Notification API)
+ * 1. Background System Hooks
  * -----------------------------------------------------------------------------
  */
 const SystemHooks = {
@@ -680,7 +703,7 @@ async function enableSystemHooks() {
 
 /**
  * -----------------------------------------------------------------------------
- * 2. Fault-Tolerant Storage & Crash-Proof Chunk Cache (IndexedDB)
+ * 2. Fault-Tolerant Persistent Storage (IndexedDB)
  * -----------------------------------------------------------------------------
  */
 const DB = {
@@ -799,7 +822,7 @@ DB.getDb().then(() => DB.updateBadge()).catch(() => {});
 
 /**
  * -----------------------------------------------------------------------------
- * 3. Diagnostics Logger & Safe Scoped Storage Wiper
+ * 3. Diagnostics Logger & Storage Inspector
  * -----------------------------------------------------------------------------
  */
 const Logger = {
@@ -898,10 +921,11 @@ async function purgeAppStorage() {
 
 /**
  * -----------------------------------------------------------------------------
- * 4. Network & Folder Management
+ * 4. Network & Folder Management (With Hardcoded Cloudflare Proxy Default)
  * -----------------------------------------------------------------------------
  */
 let customDirectoryHandle = null;
+const DEFAULT_WORKER_URL = "https://streamsink-proxy.bakhtiyaralvi03.workers.dev/";
 
 async function selectDestinationFolder() {
   if ("showDirectoryPicker" in window) {
@@ -917,15 +941,27 @@ async function selectDestinationFolder() {
 
 const NetworkManager = {
   wrapUrl(url) {
-    const mode = document.getElementById("corsMode").value;
-    if (mode === "custom") {
-      const worker = document.getElementById("workerUrl").value.trim();
-      if (!worker) throw new Error("Worker URL required in Custom mode.");
-      return `${worker.endsWith("/") ? worker : worker + "/"}?url=${encodeURIComponent(url)}`;
+    if (!url) return url;
+    // Avoid double-wrapping URLs
+    if (url.includes("streamsink-proxy.bakhtiyaralvi03.workers.dev") || url.includes("allorigins.win")) {
+      return url;
     }
-    if (mode === "public") return `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+
+    const modeSelect = document.getElementById("corsMode");
+    const mode = modeSelect ? modeSelect.value : "custom";
+
+    if (mode === "custom") {
+      const workerInput = document.getElementById("workerUrl");
+      let worker = (workerInput && workerInput.value.trim()) || DEFAULT_WORKER_URL;
+      if (!worker.endsWith("/")) worker += "/";
+      return `${worker}?url=${encodeURIComponent(url)}`;
+    }
+    if (mode === "public") {
+      return `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+    }
     return url;
   },
+
   async fetchWithRetry(url, options = {}, retries = 3, backoff = 500) {
     const target = this.wrapUrl(url);
     for (let i = 0; i <= retries; i++) {
@@ -1112,7 +1148,7 @@ async function downloadSubtitleTrack(format) {
 
 /**
  * -----------------------------------------------------------------------------
- * 8. Proven Recursive MP4 Box Patcher (The 13h / 27h Timestamp Normalizer)
+ * 8. Proven Recursive MP4 Box Patcher (13h / 27h Timestamp Bug Fix)
  * -----------------------------------------------------------------------------
  */
 function walkMp4Boxes(u8, callback) {
@@ -1161,12 +1197,12 @@ function patchInitSegment(u8, totalSeconds) {
         const dur = Math.round(totalSeconds * mvhdTimescale);
         if (v === 0) {
           view.setUint32(p + 16, dur, false);
-          view.setUint32(p + 20, 0, false); // ZEROES 13h / 27h DELAY!
+          view.setUint32(p + 20, 0, false); // ZEROES 13h / 27h OFFSET
         } else {
           view.setBigUint64(p + 16, BigInt(dur), false);
           view.setBigUint64(p + 24, 0n, false);
         }
-        Logger.info(`Zeroed elst media_time: removed 13h/27h timeline delay offset.`);
+        Logger.info(`Zeroed elst media_time: removed 13h/27h timeline delay.`);
       }
     }
   });
@@ -1288,7 +1324,7 @@ class AdaptiveStorageSink {
           close: async () => { await writable.close(); },
           abort: async () => { await writable.abort(); }
         };
-        Logger.info(`Storage: Streaming to folder (${customDirectoryHandle.name}).`);
+        Logger.info(`Storage: Direct disk stream to folder (${customDirectoryHandle.name}).`);
         return;
       } catch (e) {
         Logger.warn(`Folder stream failed (${e.message}). Falling back...`);
@@ -1342,7 +1378,7 @@ class AdaptiveStorageSink {
 
 /**
  * -----------------------------------------------------------------------------
- * 11. Pipeline Execution Coordinator
+ * 11. Pipeline Execution Coordinator (With Zero-Byte Prevention & Chunk Retry)
  * -----------------------------------------------------------------------------
  */
 class ExecutionCoordinator {
@@ -1408,17 +1444,15 @@ class ExecutionCoordinator {
     const fetchWorker = async () => {
       while (nextFetch < total && !signal.aborted) {
         while (this.isPaused && !signal.aborted) {
-          await new Promise(r => setTimeout(r, 200));
+          await new Promise(r => setTimeout(r, 250));
         }
 
         const idx = nextFetch++;
         const seg = this.segments[idx];
         
-        let data = null;
-        const cached = await DB.getCachedChunk(this.streamUrl, seg.sequence);
-        if (cached) {
-          data = new Uint8Array(cached);
-        } else {
+        let data = await DB.getCachedChunk(this.streamUrl, seg.sequence);
+
+        if (!data) {
           const fetchStart = performance.now();
           try {
             const res = await NetworkManager.fetchWithRetry(seg.uri, { signal });
@@ -1426,10 +1460,17 @@ class ExecutionCoordinator {
             const latency = performance.now() - fetchStart;
             this.profileSpeed(latency);
           } catch (fetchErr) {
+            if (signal.aborted) return;
+            // Never silently drop and write an empty file; pause, rewind, and wait for resume/token update
             this.isPaused = true;
+            nextFetch = Math.min(nextFetch - 1, idx);
             document.getElementById("btnPause").innerText = "Resume";
-            Logger.error(`Segment ${idx + 1} download error: ${fetchErr.message}`);
-            return;
+            document.getElementById("urlExpiredNotice").style.display = "flex";
+            Logger.error(`Segment ${idx + 1} download error: ${fetchErr.message}. Paused.`);
+            while (this.isPaused && !signal.aborted) {
+              await new Promise(r => setTimeout(r, 350));
+            }
+            continue;
           }
 
           if (seg.encryption) {
@@ -1437,6 +1478,8 @@ class ExecutionCoordinator {
           }
 
           await DB.cacheChunk(this.streamUrl, seg.sequence, data.buffer);
+        } else {
+          data = new Uint8Array(data);
         }
 
         if (this.actionType === "audio_only") {
@@ -1568,7 +1611,7 @@ class ExecutionCoordinator {
 
 /**
  * -----------------------------------------------------------------------------
- * 12. UI Controller & Event Handlers
+ * 12. UI Controller & Full Media Player (With Relative Path Fix)
  * -----------------------------------------------------------------------------
  */
 let coordinator = null;
@@ -1772,23 +1815,84 @@ function handlePrimaryAction() {
   }
 }
 
-function streamVideoOnline() {
+/**
+ * Fixed In-App Streaming Video Engine
+ * Rewrites all relative playlist paths to absolute URLs so Hls.js never fails on the proxy.
+ */
+async function streamVideoOnline() {
   const url = document.getElementById("videoSelect").value || document.getElementById("urlInput").value.trim();
+  if (!url) return alert("Please enter or parse an M3U8 stream first.");
+
   const container = document.getElementById("mediaContainer");
   container.innerHTML = "";
   if (activeHls) { activeHls.destroy(); activeHls = null; }
 
   const video = document.createElement("video");
-  video.controls = true; video.autoplay = true; video.playsInline = true;
+  video.controls = true;
+  video.autoplay = true;
+  video.playsInline = true;
   container.appendChild(video);
 
-  const target = NetworkManager.wrapUrl(url);
-  if (Hls.isSupported()) {
-    activeHls = new Hls(); activeHls.loadSource(target); activeHls.attachMedia(video);
-  } else { video.src = target; }
-
+  document.getElementById("playerTitle").innerText = "Stream Player";
   document.getElementById("btnExportPlaying").style.display = "none";
   toggleModal("playerModal", true);
+
+  try {
+    Logger.info("Preparing stream for in-app playback...");
+    const res = await NetworkManager.fetchWithRetry(url);
+    const m3u8Text = await res.text();
+
+    // Rewrite relative segment lines into absolute URLs
+    const lines = m3u8Text.split(/\r?\n/);
+    const rewritten = lines.map(line => {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith("#")) return line;
+      try {
+        return new URL(trimmed, url).href;
+      } catch {
+        return line;
+      }
+    }).join("\n");
+
+    const blob = new Blob([rewritten], { type: "application/vnd.apple.mpegurl" });
+    const blobUrl = URL.createObjectURL(blob);
+
+    if (Hls.isSupported()) {
+      activeHls = new Hls({
+        enableWorker: true,
+        loader: class extends Hls.DefaultConfig.loader {
+          constructor(config) {
+            super(config);
+            const origLoad = this.load.bind(this);
+            this.load = function (context, cfg, callbacks) {
+              if (!context.url.startsWith("blob:")) {
+                context.url = NetworkManager.wrapUrl(context.url);
+              }
+              origLoad(context, cfg, callbacks);
+            };
+          }
+        }
+      });
+
+      activeHls.loadSource(blobUrl);
+      activeHls.attachMedia(video);
+      activeHls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(() => {}));
+      activeHls.on(Hls.Events.ERROR, (event, data) => {
+        if (data.fatal) {
+          Logger.error(`Player Error: ${data.details}`);
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) activeHls.startLoad();
+        }
+      });
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = blobUrl;
+      video.play().catch(() => {});
+    } else {
+      alert("HLS playback is not supported on this browser.");
+    }
+  } catch (e) {
+    Logger.error(`Player setup error: ${e.message}`);
+    alert("Player Error: " + e.message);
+  }
 }
 
 async function startPipeline(actionType, overrideUrl = null) {
@@ -1913,7 +2017,7 @@ function exportPlayingFile() {
   setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
-// History & Permanent Disk Deletion
+// History
 async function loadHistoryList() {
   const listEl = document.getElementById("historyList");
   const files = await DB.getAll();
