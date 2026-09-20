@@ -56,7 +56,7 @@
       width: 100%; height: 100%;
       object-fit: contain;
       background: transparent;
-      mix-blend-mode: screen; /* Automatically removes pure black background */
+      mix-blend-mode: screen;
       filter: drop-shadow(0 2px 8px rgba(6, 182, 212, 0.5));
     }
     .brand-logo-svg {
@@ -141,6 +141,52 @@
     .btn-danger-pill { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger); color: #f87171; border-radius: 8px; padding: 4px 10px; font-size: 0.72rem; }
     .btn-warning-pill { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--warning); color: #fbbf24; border-radius: 8px; padding: 4px 10px; font-size: 0.72rem; }
 
+    /* Collapsible Custom Headers Drawer */
+    details.headers-drawer {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 2px;
+    }
+    details.headers-drawer summary {
+      padding: 9px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    details.headers-drawer summary:hover {
+      color: #fff;
+    }
+    .headers-content {
+      padding: 8px 12px 12px 12px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    textarea.headers-input {
+      width: 100%;
+      height: 75px;
+      background: #040810;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #38bdf8;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 8px;
+      outline: none;
+      resize: vertical;
+    }
+    textarea.headers-input:focus {
+      border-color: var(--border-focus);
+    }
+
     /* Stream Info Grid */
     .info-specs-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--card-sub);
@@ -203,7 +249,7 @@
 <body>
 
 <div class="container">
-  <!-- Top Brand Header with Compact Transparent Logo -->
+  <!-- Top Brand Header with Compact Transparent Logo[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)[span_2](start_span)[span_2](end_span) -->
   <header>
     <div class="header-brand">
       <div class="logo-box">
@@ -245,7 +291,7 @@
     </div>
   </header>
 
-  <!-- 4-Tab Navigation Grid -->
+  <!-- 4-Tab Navigation Grid[span_3](start_span)[span_3](end_span) -->
   <div class="nav-grid">
     <div class="nav-item active" id="tabMain" onclick="switchView('main')">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -269,15 +315,15 @@
 
   <!-- VIEW 1: Main Downloader Shell -->
   <main id="mainView" style="display: flex; flex-direction: column; gap: 12px;">
-    <!-- 1. M3U8 URL Card -->
+    <!-- 1. M3U8 URL Card[span_4](start_span)[span_4](end_span) -->
     <div class="card">
       <div class="card-title-label">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-        <span>M3U8 URL</span>
+        <span>M3U8 / Media URL</span>
       </div>
 
       <div class="input-wrapper">
-        <input type="text" id="urlInput" placeholder="Paste your HLS / M3U8 URL here..." />
+        <input type="text" id="urlInput" placeholder="Paste your HLS / M3U8 / MP4 URL here..." />
         <button class="input-clear-btn" onclick="clearUrlInput()" title="Clear">✕</button>
       </div>
 
@@ -286,9 +332,25 @@
         <button class="btn btn-secondary-flat" onclick="loadExampleUrl()">🔗 Example</button>
         <button class="btn btn-primary-action" id="btnAnalyze" onclick="analyzeManifest()">🔍 Analyze</button>
       </div>
+
+      <!-- NEW: Collapsible Custom Headers Drawer -->
+      <details class="headers-drawer">
+        <summary>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span>⚙️ Custom Headers (Referer, Cookie, Auth)</span>
+          </div>
+          <span style="font-size:0.68rem; color:var(--cyan); font-family:var(--font-mono);">Optional</span>
+        </summary>
+        <div class="headers-content">
+          <textarea id="customHeadersInput" class="headers-input" placeholder="Referer: https://xyz.com/&#10;Origin: https://abc.com&#10;Cookie: session=xyz&#10;Authorization: Bearer token" oninput="saveCustomHeaders()"></textarea>
+          <span style="font-size:0.68rem; color:var(--text-muted);">
+            Format: <span style="color:#cbd5e1; font-family:var(--font-mono);">Header-Name: Value</span> (one per line). Forwarded via your Cloudflare Worker.
+          </span>
+        </div>
+      </details>
     </div>
 
-    <!-- 2. Stream Information Specs -->
+    <!-- 2. Stream Information Specs[span_5](start_span)[span_5](end_span) -->
     <div class="card" id="streamInfoCard" style="display: none;">
       <div class="card-header-clean">
         <div class="card-title-label">
@@ -334,7 +396,7 @@
       </div>
     </div>
 
-    <!-- 3. Smart Selectors & Download Trigger -->
+    <!-- 3. Smart Selectors & Download Trigger[span_6](start_span)[span_6](end_span) -->
     <div class="card" id="configCard" style="display: none;">
       <div class="selectors-row">
         <div class="field-box">
@@ -392,7 +454,7 @@
         <button class="btn btn-secondary-flat" style="width:auto; padding:2px 8px; font-size:0.72rem;" onclick="clearActiveStreamCache()">Purge</button>
       </div>
 
-      <!-- Action Button -->
+      <!-- Action Button[span_7](start_span)[span_7](end_span) -->
       <button class="btn btn-hero" onclick="handlePrimaryAction()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
         <span>Start Download</span>
@@ -403,7 +465,7 @@
       </button>
     </div>
 
-    <!-- 4. Progress Card -->
+    <!-- 4. Progress Card[span_8](start_span)[span_8](end_span) -->
     <div class="card" id="progressCard" style="display: none;">
       <div class="progress-status-head">
         <div style="display:flex; align-items:center; gap:8px;">
@@ -417,7 +479,7 @@
         <div class="progress-bar-fill" id="progressBar"></div>
       </div>
 
-      <!-- Live Metrics Pill -->
+      <!-- Live Metrics Pill[span_9](start_span)[span_9](end_span) -->
       <div class="progress-metrics-pill">
         <span id="metricSegments">📄 Chunk 0 / 0</span>
         <span id="metricSpeed">⚡ 0.00 MB/s</span>
@@ -445,7 +507,7 @@
       </div>
     </div>
 
-    <!-- 5. Debug Drawer -->
+    <!-- 5. Debug Drawer[span_10](start_span)[span_10](end_span) -->
     <details class="debug-drawer" open>
       <summary>
         <div style="display:flex; align-items:center; gap:6px;">
@@ -615,38 +677,39 @@ export default {
     }
 
     const targetUrl = new URL(request.url).searchParams.get("url");
-    if (!targetUrl) {
-      return new Response("StreamSink CORS Proxy is Online.", {
-        status: 200,
-        headers: { "Content-Type": "text/plain; charset=utf-8" }
-      });
-    }
+    if (!targetUrl) return new Response("StreamSink CORS Proxy Online.", { status: 200 });
 
     try {
       const parsedTarget = new URL(targetUrl);
-      let referer = `https://${parsedTarget.hostname}/`;
-      if (targetUrl.includes("t8cdn.com") || targetUrl.includes("phncdn.com")) {
-        referer = "https://www.pornhub.com/";
-      }
-
-      const reqHeaders = {
+      const upstreamHeaders = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-        "Referer": referer
+        "Referer": `https://${parsedTarget.hostname}/`
       };
 
       if (request.headers.has("Range")) {
-        reqHeaders["Range"] = request.headers.get("Range");
+        upstreamHeaders["Range"] = request.headers.get("Range");
       }
 
-      const upstream = await fetch(targetUrl, { headers: reqHeaders });
+      for (const [key, value] of request.headers.entries()) {
+        if (key.toLowerCase().startsWith("x-forward-")) {
+          upstreamHeaders[key.slice(10)] = value;
+        }
+      }
+
+      const jsonHeader = request.headers.get("X-Custom-Headers");
+      if (jsonHeader) {
+        try {
+          const parsed = JSON.parse(jsonHeader);
+          for (const [k, v] of Object.entries(parsed)) upstreamHeaders[k] = v;
+        } catch {}
+      }
+
+      const upstream = await fetch(targetUrl, { headers: upstreamHeaders });
       const headers = new Headers(upstream.headers);
       headers.set("Access-Control-Allow-Origin", "*");
       headers.set("Access-Control-Expose-Headers", "Content-Length,Content-Range,Accept-Ranges");
 
-      return new Response(upstream.body, {
-        status: upstream.status,
-        headers
-      });
+      return new Response(upstream.body, { status: upstream.status, headers });
     } catch (err) {
       return new Response("Upstream Fetch Error: " + err.message, {
         status: 502,
@@ -930,11 +993,39 @@ async function purgeAppStorage() {
 
 /**
  * -----------------------------------------------------------------------------
- * 4. Network & Folder Management
+ * 4. Custom Headers Management & Network Layer
  * -----------------------------------------------------------------------------
  */
 let customDirectoryHandle = null;
 const DEFAULT_WORKER_URL = "https://streamsink-proxy.bakhtiyaralvi03.workers.dev/";
+
+function getCustomHeaders() {
+  const text = document.getElementById("customHeadersInput")?.value.trim() || "";
+  if (!text) return {};
+  const headers = {};
+  const lines = text.split(/\r?\n/);
+  for (const line of lines) {
+    const colonIdx = line.indexOf(":");
+    if (colonIdx > 0) {
+      const key = line.slice(0, colonIdx).trim();
+      const val = line.slice(colonIdx + 1).trim();
+      if (key && val) headers[key] = val;
+    }
+  }
+  return headers;
+}
+
+function saveCustomHeaders() {
+  const val = document.getElementById("customHeadersInput")?.value || "";
+  localStorage.setItem("streamsink_custom_headers", val);
+}
+
+function loadSavedCustomHeaders() {
+  const saved = localStorage.getItem("streamsink_custom_headers");
+  const el = document.getElementById("customHeadersInput");
+  if (saved && el) el.value = saved;
+}
+window.addEventListener("DOMContentLoaded", loadSavedCustomHeaders);
 
 async function selectDestinationFolder() {
   if ("showDirectoryPicker" in window) {
@@ -972,9 +1063,24 @@ const NetworkManager = {
 
   async fetchWithRetry(url, options = {}, retries = 3, backoff = 500) {
     const target = this.wrapUrl(url);
+    const opts = { ...options };
+    const headers = new Headers(opts.headers || {});
+
+    // Automatically inject Custom Headers via X-Forward-* and X-Custom-Headers
+    const custom = getCustomHeaders();
+    const customObj = {};
+    for (const [k, v] of Object.entries(custom)) {
+      headers.set(`X-Forward-${k}`, v);
+      customObj[k] = v;
+    }
+    if (Object.keys(customObj).length > 0) {
+      headers.set("X-Custom-Headers", JSON.stringify(customObj));
+    }
+    opts.headers = headers;
+
     for (let i = 0; i <= retries; i++) {
       try {
-        const res = await fetch(target, options);
+        const res = await fetch(target, opts);
         if (!res.ok) {
           if ([401, 403].includes(res.status)) {
             document.getElementById("urlExpiredNotice").style.display = "flex";
@@ -1205,7 +1311,7 @@ function patchInitSegment(u8, totalSeconds) {
         const dur = Math.round(totalSeconds * mvhdTimescale);
         if (v === 0) {
           view.setUint32(p + 16, dur, false);
-          view.setUint32(p + 20, 0, false); // ZEROES 13h / 27h OFFSET
+          view.setUint32(p + 20, 0, false);
         } else {
           view.setBigUint64(p + 16, BigInt(dur), false);
           view.setBigUint64(p + 24, 0n, false);
@@ -1618,7 +1724,7 @@ class ExecutionCoordinator {
 
 /**
  * -----------------------------------------------------------------------------
- * 12. UI Controller & Streaming Engine
+ * 12. UI Controller & Streaming Engine (With Direct MP4 Detection & Header Sync)
  * -----------------------------------------------------------------------------
  */
 let coordinator = null;
@@ -1672,35 +1778,59 @@ function switchView(view) {
 
 async function analyzeManifest() {
   const url = document.getElementById("urlInput").value.trim();
-  if (!url) return alert("Please enter an M3U8 URL.");
+  if (!url) return alert("Please enter an M3U8 or MP4 URL.");
 
-  Logger.info("Inspecting manifest & probing media...");
+  Logger.info("Inspecting media source...");
   try {
-    const res = await NetworkManager.fetchWithRetry(url);
-    const parsed = HLSParser.parse(await res.text(), url);
+    const isDirectMp4 = url.includes(".mp4") || (!url.includes(".m3u8") && !url.includes("playlist"));
 
-    const vSelect = document.getElementById("videoSelect");
-    const aSelect = document.getElementById("audioSelect");
-    const subSelect = document.getElementById("subSelect");
-    const subSec = document.getElementById("subtitlesSection");
-
-    vSelect.innerHTML = ""; aSelect.innerHTML = ""; subSelect.innerHTML = "";
-    activeParsedMaster = parsed;
-
+    // Suggest clean filename
     let suggestedName = "video_" + Date.now();
     try {
       const u = new URL(url);
-      const p = u.pathname.split("/").filter(Boolean);
-      if (p.length > 0) {
-        let last = p[p.length - 1].replace(/\.m3u8$/i, "");
-        if (last && last !== "master" && last !== "index" && last !== "playlist") {
-          suggestedName = last;
-        } else if (p.length > 1) {
-          suggestedName = p[p.length - 2];
-        }
+      const fileParam = u.searchParams.get("file");
+      if (fileParam) {
+        suggestedName = fileParam.replace(/\.mp4$/i, "").slice(0, 32);
+      } else {
+        const p = u.pathname.split("/").filter(Boolean);
+        if (p.length > 0) suggestedName = p[p.length - 1].replace(/\.(m3u8|mp4)$/i, "");
       }
     } catch {}
-    document.getElementById("filenameInput").value = suggestedName;
+    document.getElementById("filenameInput").value = sanitizeFilename(suggestedName);
+
+    const vSelect = document.getElementById("videoSelect");
+    const aSelect = document.getElementById("audioSelect");
+    const subSec = document.getElementById("subtitlesSection");
+
+    // Direct MP4 Branch
+    if (isDirectMp4) {
+      Logger.info("Direct Progressive MP4 stream detected.");
+      vSelect.innerHTML = `<option value="${url}">Direct MP4 Source</option>`;
+      aSelect.innerHTML = '<option value="">Embedded</option>';
+      subSec.style.display = "none";
+
+      document.getElementById("specType").innerText = "Direct MP4";
+      document.getElementById("specResolution").innerText = "Source Default";
+      document.getElementById("specDuration").innerText = "Single File";
+      document.getElementById("specSegments").innerText = "1 file";
+      document.getElementById("specBandwidth").innerText = "Variable";
+      document.getElementById("specEncryption").innerText = "None";
+
+      document.getElementById("customRangeGroup").style.display = "none";
+      document.getElementById("rangePreviewText").innerText = "Direct File Mode: Full stream pipe.";
+
+      document.getElementById("streamInfoCard").style.display = "flex";
+      document.getElementById("configCard").style.display = "flex";
+      return;
+    }
+
+    // Standard HLS Playlist Branch
+    document.getElementById("customRangeGroup").style.display = "grid";
+    const res = await NetworkManager.fetchWithRetry(url);
+    const parsed = HLSParser.parse(await res.text(), url);
+
+    vSelect.innerHTML = ""; aSelect.innerHTML = "";
+    activeParsedMaster = parsed;
 
     if (parsed.type === "master") {
       parsed.variants.forEach(v => {
@@ -1721,18 +1851,7 @@ async function analyzeManifest() {
         aSelect.innerHTML = '<option value="">Embedded</option>';
       }
 
-      if (parsed.subtitleTracks.length) {
-        subSec.style.display = "flex";
-        parsed.subtitleTracks.forEach(s => {
-          const opt = document.createElement("option");
-          opt.value = s.uri;
-          opt.innerText = s.name;
-          subSelect.appendChild(opt);
-        });
-      } else {
-        subSec.style.display = "none";
-      }
-
+      subSec.style.display = parsed.subtitleTracks.length ? "flex" : "none";
       document.getElementById("specType").innerText = "VOD (Master)";
       document.getElementById("specResolution").innerText = parsed.variants[0].resolution || "Multi-Res";
       document.getElementById("specBandwidth").innerText = `${(parsed.variants[0].bandwidth / 1000000).toFixed(1)} Mbps`;
@@ -1759,7 +1878,7 @@ async function analyzeManifest() {
     document.getElementById("streamInfoCard").style.display = "flex";
     document.getElementById("configCard").style.display = "flex";
   } catch (e) {
-    Logger.error(`Manifest inspection error: ${e.message}`);
+    Logger.error(`Inspection error: ${e.message}`);
     alert(`Error: ${e.message}`);
   }
 }
@@ -1824,7 +1943,7 @@ function handlePrimaryAction() {
 
 async function streamVideoOnline() {
   const url = document.getElementById("videoSelect").value || document.getElementById("urlInput").value.trim();
-  if (!url) return alert("Please enter or parse an M3U8 stream first.");
+  if (!url) return alert("Please enter or parse a stream first.");
 
   const container = document.getElementById("mediaContainer");
   container.innerHTML = "";
@@ -1840,6 +1959,14 @@ async function streamVideoOnline() {
   document.getElementById("btnExportPlaying").style.display = "none";
   toggleModal("playerModal", true);
 
+  // Direct MP4 Playback
+  if (url.includes(".mp4") || (!url.includes(".m3u8") && !url.includes("playlist"))) {
+    video.src = NetworkManager.wrapUrl(url);
+    video.play().catch(() => {});
+    return;
+  }
+
+  // HLS Manifest Playback with Relative Path Rewriting
   try {
     Logger.info("Preparing stream for in-app playback...");
     const res = await NetworkManager.fetchWithRetry(url);
@@ -1869,6 +1996,12 @@ async function streamVideoOnline() {
             this.load = function (context, cfg, callbacks) {
               if (!context.url.startsWith("blob:")) {
                 context.url = NetworkManager.wrapUrl(context.url);
+              }
+              // Forward custom headers into HLS player loader
+              const custom = getCustomHeaders();
+              for (const [k, v] of Object.entries(custom)) {
+                cfg.headers = cfg.headers || {};
+                cfg.headers[`X-Forward-${k}`] = v;
               }
               origLoad(context, cfg, callbacks);
             };
@@ -1929,6 +2062,53 @@ async function startPipeline(actionType, overrideUrl = null) {
   document.getElementById("urlExpiredNotice").style.display = "none";
 
   try {
+    const isDirectMp4 = targetUrl.includes(".mp4") || (!targetUrl.includes(".m3u8") && !targetUrl.includes("playlist"));
+
+    // Direct MP4 Pipeline
+    if (isDirectMp4) {
+      Logger.info("Downloading progressive MP4 via storage pipe...");
+      const sink = new AdaptiveStorageSink(storagePref, filename, mime);
+      await sink.init();
+
+      const res = await NetworkManager.fetchWithRetry(targetUrl);
+      const reader = res.body.getReader();
+      let receivedBytes = 0;
+      const totalBytes = parseInt(res.headers.get("Content-Length") || "0", 10);
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        await sink.write(value);
+        receivedBytes += value.length;
+        if (totalBytes > 0) {
+          const pct = Math.round((receivedBytes / totalBytes) * 100);
+          document.getElementById("progressBar").style.width = `${pct}%`;
+          document.getElementById("progressPercent").innerText = `${pct}%`;
+        }
+        document.getElementById("metricSegments").innerText = `${(receivedBytes / (1024 * 1024)).toFixed(1)} MB`;
+      }
+
+      await sink.close();
+      const finalBlob = sink.getBlob();
+
+      await DB.saveDownload({
+        filename,
+        mime,
+        size: (receivedBytes / (1024 * 1024)).toFixed(1),
+        date: new Date().toLocaleTimeString(),
+        blob: finalBlob,
+        folderName: customDirectoryHandle ? customDirectoryHandle.name : null
+      });
+
+      lastDownloadedBlob = finalBlob;
+      lastDownloadedType = mime;
+      lastDownloadedName = filename;
+      document.getElementById("completeFileName").innerText = `${filename} (${(receivedBytes / (1024 * 1024)).toFixed(1)} MB)`;
+      document.getElementById("completeCard").style.display = "flex";
+      return;
+    }
+
+    // HLS Pipeline
     const res = await NetworkManager.fetchWithRetry(targetUrl);
     const media = HLSParser.parse(await res.text(), targetUrl);
 
