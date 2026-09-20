@@ -106,7 +106,9 @@
       width: 100%; background: var(--card-sub); border: 1px solid var(--border); color: #fff;
       padding: 11px 36px 11px 12px; border-radius: 10px; font-size: 0.85rem; outline: none; transition: 0.2s;
     }
-    input[type="text"]:focus, select:focus, textarea:focus { border-color: var(--border-focus); box-shadow: 0 0 0 2px var(--cyan-glow); }
+    input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+      border-color: var(--border-focus); box-shadow: 0 0 0 2px var(--cyan-glow);
+    }
     .input-clear-btn {
       position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
       background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.95rem; padding: 4px;
@@ -192,7 +194,7 @@
 <body>
 
 <div class="container">
-  <!-- Top Brand Header with Logo & Title [Mockup] -->
+  <!-- Top Brand Header with Logo & Title[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)[span_2](start_span)[span_2](end_span) -->
   <header>
     <div class="header-brand">
       <div class="logo-box">
@@ -234,7 +236,7 @@
     </div>
   </header>
 
-  <!-- 4-Tab Navigation Grid -->
+  <!-- 4-Tab Navigation Grid[span_3](start_span)[span_3](end_span) -->
   <div class="nav-grid">
     <div class="nav-item active" id="tabMain" onclick="switchView('main')">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -258,7 +260,7 @@
 
   <!-- VIEW 1: Main Downloader Shell -->
   <main id="mainView" style="display: flex; flex-direction: column; gap: 12px;">
-    <!-- 1. M3U8 URL Card [Mockup] -->
+    <!-- 1. M3U8 URL Card[span_4](start_span)[span_4](end_span) -->
     <div class="card">
       <div class="card-title-label">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
@@ -277,7 +279,7 @@
       </div>
     </div>
 
-    <!-- 2. Stream Information Specs [Mockup] -->
+    <!-- 2. Stream Information Specs[span_5](start_span)[span_5](end_span) -->
     <div class="card" id="streamInfoCard" style="display: none;">
       <div class="card-header-clean">
         <div class="card-title-label">
@@ -323,7 +325,7 @@
       </div>
     </div>
 
-    <!-- 3. Smart Selectors & Download Trigger [Mockup] -->
+    <!-- 3. Smart Selectors & Download Trigger[span_6](start_span)[span_6](end_span) -->
     <div class="card" id="configCard" style="display: none;">
       <div class="selectors-row">
         <div class="field-box">
@@ -344,6 +346,12 @@
           <button class="btn btn-secondary-flat" style="width:auto; padding:0 10px;" onclick="downloadSubtitleTrack('srt')">.SRT</button>
           <button class="btn btn-secondary-flat" style="width:auto; padding:0 10px;" onclick="downloadSubtitleTrack('vtt')">.VTT</button>
         </div>
+      </div>
+
+      <!-- Custom File Name Input Field -->
+      <div class="field-box">
+        <div class="field-label">✏️ Custom File Name (Output)</div>
+        <input type="text" id="filenameInput" placeholder="Enter custom filename..." />
       </div>
 
       <div class="field-box">
@@ -375,7 +383,7 @@
         <button class="btn btn-secondary-flat" style="width:auto; padding:2px 8px; font-size:0.72rem;" onclick="clearActiveStreamCache()">Purge</button>
       </div>
 
-      <!-- Hero Action Button [Mockup] -->
+      <!-- Hero Action Button[span_7](start_span)[span_7](end_span) -->
       <button class="btn btn-hero" onclick="handlePrimaryAction()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
         <span>Start Download</span>
@@ -386,7 +394,7 @@
       </button>
     </div>
 
-    <!-- 4. Progress Card [Mockup] -->
+    <!-- 4. Progress Card[span_8](start_span)[span_8](end_span) -->
     <div class="card" id="progressCard" style="display: none;">
       <div class="progress-status-head">
         <div style="display:flex; align-items:center; gap:8px;">
@@ -400,7 +408,7 @@
         <div class="progress-bar-fill" id="progressBar"></div>
       </div>
 
-      <!-- Live Metrics Pill [Mockup] -->
+      <!-- Live Metrics Pill[span_9](start_span)[span_9](end_span) -->
       <div class="progress-metrics-pill">
         <span id="metricSegments">📄 Chunk 0 / 0</span>
         <span id="metricSpeed">⚡ 0.00 MB/s</span>
@@ -428,7 +436,7 @@
       </div>
     </div>
 
-    <!-- 5. Debug Drawer [Mockup] -->
+    <!-- 5. Debug Drawer[span_10](start_span)[span_10](end_span) -->
     <details class="debug-drawer" open>
       <summary>
         <div style="display:flex; align-items:center; gap:6px;">
@@ -471,8 +479,24 @@
     </div>
   </main>
 
-  <!-- VIEW 4: Settings -->
+  <!-- VIEW 4: Settings & Storage Inspector -->
   <main id="settingsView" style="display: none; flex-direction: column; gap: 12px;">
+    <!-- Scoped Browser Storage Footprint Card -->
+    <div class="card">
+      <div class="card-header-clean">
+        <div class="card-title-label">💾 Browser Storage Footprint</div>
+        <button class="btn-secondary-flat" style="width:auto; padding:3px 8px; font-size:0.72rem;" onclick="updateStorageStats()">Refresh</button>
+      </div>
+      <div id="storageText" style="font-size:0.78rem; color:var(--text-muted);">Calculating storage usage...</div>
+      <div style="background:var(--card-sub); height:8px; border-radius:99px; overflow:hidden; border:1px solid var(--border);">
+        <div id="storageBar" style="background:linear-gradient(90deg, var(--accent), var(--cyan)); width:0%; height:100%; transition:width 0.3s;"></div>
+      </div>
+      <div class="selectors-row" style="margin-top:4px;">
+        <button class="btn btn-secondary-flat" style="font-size:0.75rem;" onclick="clearAllCachedChunks()">🧹 Purge Chunk Cache</button>
+        <button class="btn-danger-pill" style="text-align:center; padding:9px;" onclick="purgeAppStorage()">🗑️ Wipe App Data</button>
+      </div>
+    </div>
+
     <div class="card">
       <div class="card-title-label">Storage Destination</div>
       <div id="folderStatus" style="font-size: 0.8rem; color: var(--text-muted); padding: 8px; background: var(--card-sub); border-radius: 8px;">
@@ -656,7 +680,7 @@ async function enableSystemHooks() {
 
 /**
  * -----------------------------------------------------------------------------
- * 2. Fault-Tolerant Persistent Storage & Crash-Proof Chunk Cache (IndexedDB)
+ * 2. Fault-Tolerant Storage & Crash-Proof Chunk Cache (IndexedDB)
  * -----------------------------------------------------------------------------
  */
 const DB = {
@@ -768,13 +792,14 @@ const DB = {
     const list = await this.getAll();
     const b = document.getElementById("historyBadge");
     if (b) b.innerText = list.length;
+    updateStorageStats();
   }
 };
 DB.getDb().then(() => DB.updateBadge()).catch(() => {});
 
 /**
  * -----------------------------------------------------------------------------
- * 3. Diagnostics Logger
+ * 3. Diagnostics Logger & Safe Scoped Storage Wiper
  * -----------------------------------------------------------------------------
  */
 const Logger = {
@@ -796,6 +821,80 @@ const Logger = {
   error(m) { this.log(m, "error"); },
   network(m) { this.log(m, "network"); }
 };
+
+async function updateStorageStats() {
+  if ('storage' in navigator && 'estimate' in navigator.storage) {
+    try {
+      const { quota, usage } = await navigator.storage.estimate();
+      const usedMB = (usage / (1024 * 1024)).toFixed(1);
+      const totalGB = (quota / (1024 * 1024 * 1024)).toFixed(1);
+      const percent = Math.min(100, Math.round((usage / quota) * 100));
+      const txt = document.getElementById('storageText');
+      const bar = document.getElementById('storageBar');
+      if (txt && bar) {
+        txt.innerText = `Using ${usedMB} MB of ${totalGB} GB allocated browser quota (${percent}%).`;
+        bar.style.width = `${Math.max(percent, 2)}%`;
+      }
+    } catch {}
+  }
+}
+
+async function clearAllCachedChunks() {
+  try {
+    const db = await DB.getDb();
+    const tx = db.transaction("chunks", "readwrite");
+    tx.objectStore("chunks").clear();
+    await new Promise((resolve, reject) => {
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error);
+    });
+    Logger.info("StreamSink segment cache purged successfully.");
+    alert("Segment cache cleared!");
+    await updateStorageStats();
+  } catch (e) {
+    alert("Failed to clear cache: " + e.message);
+  }
+}
+
+async function purgeAppStorage() {
+  if (!confirm("This will delete only StreamSink's downloaded files, history, and chunk cache. Other apps will NOT be touched. Continue?")) {
+    return;
+  }
+
+  Logger.warn("Closing database connections and purging StreamSink data...");
+
+  if (DB.db) {
+    DB.db.close();
+    DB.db = null;
+  }
+
+  const streamSinkDatabases = ["StreamSinkEnterpriseDB", "StreamSinkProDB", "StreamSinkDB"];
+  for (const dbName of streamSinkDatabases) {
+    await new Promise((resolve) => {
+      const req = indexedDB.deleteDatabase(dbName);
+      req.onsuccess = () => resolve();
+      req.onerror = () => resolve();
+      req.onblocked = () => resolve();
+    });
+  }
+
+  if ('caches' in window) {
+    try {
+      const keys = await caches.keys();
+      for (const k of keys) {
+        if (k.toLowerCase().includes("streamsink")) {
+          await caches.delete(k);
+        }
+      }
+    } catch {}
+  }
+
+  if (window.__historyBlobCache) window.__historyBlobCache = {};
+  lastDownloadedBlob = null;
+
+  alert("StreamSink storage wiped clean without affecting your other apps!");
+  location.reload();
+}
 
 /**
  * -----------------------------------------------------------------------------
@@ -956,6 +1055,10 @@ function formatSeconds(sec) {
   return `${h > 0 ? String(h).padStart(2, '0') + ':' : ''}${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 }
 
+function sanitizeFilename(name) {
+  return name.replace(/[/\\?%*:|"<>]/g, '_').trim();
+}
+
 /**
  * -----------------------------------------------------------------------------
  * 7. Subtitle Converter (WebVTT & SRT)
@@ -978,12 +1081,12 @@ async function downloadSubtitleTrack(format) {
     }
 
     let finalOutput = compiledVtt;
-    let filename = `subtitles_${Date.now()}.vtt`;
-    let mime = "text/vtt";
+    let customName = document.getElementById("filenameInput").value.trim();
+    let base = customName ? sanitizeFilename(customName) : `subtitles_${Date.now()}`;
+    let filename = `${base}.${format}`;
+    let mime = format === "srt" ? "text/plain" : "text/vtt";
 
     if (format === "srt") {
-      filename = `subtitles_${Date.now()}.srt`;
-      mime = "text/plain";
       let cueIndex = 1;
       finalOutput = compiledVtt
         .replace(/WEBVTT[\s\S]*?\n\n/, "")
@@ -1009,7 +1112,7 @@ async function downloadSubtitleTrack(format) {
 
 /**
  * -----------------------------------------------------------------------------
- * 8. Proven Recursive MP4 Box Patcher (Fixes 13h / 27h Timestamp Bug)
+ * 8. Proven Recursive MP4 Box Patcher (The 13h / 27h Timestamp Normalizer)
  * -----------------------------------------------------------------------------
  */
 function walkMp4Boxes(u8, callback) {
@@ -1514,7 +1617,7 @@ function switchView(view) {
   if (view === "main") document.getElementById("tabMain").classList.add("active");
   if (view === "batch") { document.getElementById("tabBatch").classList.add("active"); renderBatchList(); }
   if (view === "history") { document.getElementById("tabHistory").classList.add("active"); loadHistoryList(); }
-  if (view === "settings") document.getElementById("tabSettings").classList.add("active");
+  if (view === "settings") { document.getElementById("tabSettings").classList.add("active"); updateStorageStats(); }
 }
 
 async function analyzeManifest() {
@@ -1533,6 +1636,21 @@ async function analyzeManifest() {
 
     vSelect.innerHTML = ""; aSelect.innerHTML = ""; subSelect.innerHTML = "";
     activeParsedMaster = parsed;
+
+    let suggestedName = "video_" + Date.now();
+    try {
+      const u = new URL(url);
+      const p = u.pathname.split("/").filter(Boolean);
+      if (p.length > 0) {
+        let last = p[p.length - 1].replace(/\.m3u8$/i, "");
+        if (last && last !== "master" && last !== "index" && last !== "playlist") {
+          suggestedName = last;
+        } else if (p.length > 1) {
+          suggestedName = p[p.length - 2];
+        }
+      }
+    } catch {}
+    document.getElementById("filenameInput").value = suggestedName;
 
     if (parsed.type === "master") {
       parsed.variants.forEach(v => {
@@ -1695,7 +1813,9 @@ async function startPipeline(actionType, overrideUrl = null) {
     document.getElementById("progressTitle").innerText = "Downloading Video (.mp4)";
   }
 
-  const filename = `StreamSink_${Date.now()}.${ext}`;
+  const userCustomName = document.getElementById("filenameInput").value.trim();
+  const baseName = userCustomName ? sanitizeFilename(userCustomName) : `StreamSink_${Date.now()}`;
+  const filename = `${baseName}.${ext}`;
 
   document.getElementById("configCard").style.display = "none";
   document.getElementById("completeCard").style.display = "none";
