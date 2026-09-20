@@ -3,7 +3,7 @@
  * Handles offline PWA shell caching, notifications, and strict media bypass.
  */
 
-const CACHE_NAME = "streamsink-core-v2";
+const CACHE_NAME = "streamsink-core-v3";
 
 // Static App Shell assets to pre-cache on install
 const PRECACHE_ASSETS = [
