@@ -42,24 +42,33 @@
     body { background: var(--bg); color: var(--text); padding: 12px; display: flex; justify-content: center; min-height: 100vh; }
     .container { width: 100%; max-width: 520px; display: flex; flex-direction: column; gap: 12px; }
 
-    /* Header */
+    /* Header & Transparent Compact Logo */
     header { display: flex; justify-content: space-between; align-items: center; padding: 4px 2px; }
-    .header-brand { display: flex; align-items: center; gap: 10px; }
+    .header-brand { display: flex; align-items: center; gap: 9px; }
     
     .logo-box {
-      width: 40px; height: 40px; border-radius: 12px;
+      width: 32px; height: 32px;
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; overflow: hidden; background: #000;
-      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.45);
+      flex-shrink: 0; background: transparent;
+      box-shadow: none;
     }
-    .brand-logo-img { width: 100%; height: 100%; object-fit: cover; }
-    .brand-logo-svg { width: 100%; height: 100%; }
+    .brand-logo-img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      background: transparent;
+      mix-blend-mode: screen; /* Automatically removes pure black background */
+      filter: drop-shadow(0 2px 8px rgba(6, 182, 212, 0.5));
+    }
+    .brand-logo-svg {
+      width: 100%; height: 100%;
+      filter: drop-shadow(0 2px 8px rgba(6, 182, 212, 0.4));
+    }
 
     .header-titles { display: flex; flex-direction: column; gap: 2px; }
-    .brand-title-container { display: flex; align-items: center; height: 26px; }
-    .brand-title-img { max-height: 26px; width: auto; object-fit: contain; }
+    .brand-title-container { display: flex; align-items: center; height: 24px; }
+    .brand-title-img { max-height: 24px; width: auto; object-fit: contain; }
     .brand-title-text {
-      font-size: 1.35rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1;
+      font-size: 1.25rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1;
       display: flex; align-items: center;
     }
     .txt-stream { color: #ffffff; text-shadow: 0 2px 10px rgba(255, 255, 255, 0.2); }
@@ -69,7 +78,7 @@
       -webkit-text-fill-color: transparent;
       filter: drop-shadow(0 2px 8px rgba(14, 165, 233, 0.4));
     }
-    .header-titles p { font-size: 0.72rem; color: var(--text-muted); }
+    .header-titles p { font-size: 0.7rem; color: var(--text-muted); }
 
     .icon-btn-ghost {
       background: var(--card-bg); border: 1px solid var(--border); color: var(--text-muted);
@@ -78,7 +87,7 @@
     }
     .icon-btn-ghost:hover { border-color: var(--border-focus); color: #fff; }
 
-    /* Nav Grid */
+    /* 4-Tab Navigation Grid */
     .nav-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
     .nav-item {
       background: var(--card-bg); border: 1px solid var(--border); border-radius: 11px;
@@ -100,7 +109,7 @@
     .card-header-clean { display: flex; justify-content: space-between; align-items: center; }
     .card-title-label { font-size: 0.85rem; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px; }
 
-    /* Inputs */
+    /* Inputs & Form Elements */
     .input-wrapper { position: relative; width: 100%; }
     input[type="text"], input[type="number"], select, textarea {
       width: 100%; background: var(--card-sub); border: 1px solid var(--border); color: #fff;
@@ -132,7 +141,7 @@
     .btn-danger-pill { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger); color: #f87171; border-radius: 8px; padding: 4px 10px; font-size: 0.72rem; }
     .btn-warning-pill { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--warning); color: #fbbf24; border-radius: 8px; padding: 4px 10px; font-size: 0.72rem; }
 
-    /* Stream Specs */
+    /* Stream Info Grid */
     .info-specs-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--card-sub);
       padding: 12px; border-radius: 11px; border: 1px solid var(--border);
@@ -167,11 +176,11 @@
       padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.72rem; font-family: var(--font-mono); color: #cbd5e1;
     }
 
-    /* Notices */
+    /* Notice Banners */
     .notice-box { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--warning); border-radius: 8px; padding: 10px; font-size: 0.8rem; display: flex; flex-direction: column; gap: 8px; }
     .resume-box { background: var(--green-glow); border: 1px solid var(--green); border-radius: 8px; padding: 10px; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
 
-    /* Debug Drawer */
+    /* Collapsible Debug Drawer */
     details.debug-drawer { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
     details.debug-drawer summary {
       padding: 12px 14px; font-size: 0.82rem; font-weight: 600; cursor: pointer; color: var(--text-muted);
@@ -194,7 +203,7 @@
 <body>
 
 <div class="container">
-  <!-- Top Brand Header -->
+  <!-- Top Brand Header with Compact Transparent Logo -->
   <header>
     <div class="header-brand">
       <div class="logo-box">
@@ -236,7 +245,7 @@
     </div>
   </header>
 
-  <!-- Navigation Tabs -->
+  <!-- 4-Tab Navigation Grid -->
   <div class="nav-grid">
     <div class="nav-item active" id="tabMain" onclick="switchView('main')">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -921,7 +930,7 @@ async function purgeAppStorage() {
 
 /**
  * -----------------------------------------------------------------------------
- * 4. Network & Folder Management (With Hardcoded Cloudflare Proxy Default)
+ * 4. Network & Folder Management
  * -----------------------------------------------------------------------------
  */
 let customDirectoryHandle = null;
@@ -942,7 +951,6 @@ async function selectDestinationFolder() {
 const NetworkManager = {
   wrapUrl(url) {
     if (!url) return url;
-    // Avoid double-wrapping URLs
     if (url.includes("streamsink-proxy.bakhtiyaralvi03.workers.dev") || url.includes("allorigins.win")) {
       return url;
     }
@@ -1378,7 +1386,7 @@ class AdaptiveStorageSink {
 
 /**
  * -----------------------------------------------------------------------------
- * 11. Pipeline Execution Coordinator (With Zero-Byte Prevention & Chunk Retry)
+ * 11. Pipeline Execution Coordinator
  * -----------------------------------------------------------------------------
  */
 class ExecutionCoordinator {
@@ -1461,7 +1469,6 @@ class ExecutionCoordinator {
             this.profileSpeed(latency);
           } catch (fetchErr) {
             if (signal.aborted) return;
-            // Never silently drop and write an empty file; pause, rewind, and wait for resume/token update
             this.isPaused = true;
             nextFetch = Math.min(nextFetch - 1, idx);
             document.getElementById("btnPause").innerText = "Resume";
@@ -1611,7 +1618,7 @@ class ExecutionCoordinator {
 
 /**
  * -----------------------------------------------------------------------------
- * 12. UI Controller & Full Media Player (With Relative Path Fix)
+ * 12. UI Controller & Streaming Engine
  * -----------------------------------------------------------------------------
  */
 let coordinator = null;
@@ -1815,10 +1822,6 @@ function handlePrimaryAction() {
   }
 }
 
-/**
- * Fixed In-App Streaming Video Engine
- * Rewrites all relative playlist paths to absolute URLs so Hls.js never fails on the proxy.
- */
 async function streamVideoOnline() {
   const url = document.getElementById("videoSelect").value || document.getElementById("urlInput").value.trim();
   if (!url) return alert("Please enter or parse an M3U8 stream first.");
@@ -1842,7 +1845,6 @@ async function streamVideoOnline() {
     const res = await NetworkManager.fetchWithRetry(url);
     const m3u8Text = await res.text();
 
-    // Rewrite relative segment lines into absolute URLs
     const lines = m3u8Text.split(/\r?\n/);
     const rewritten = lines.map(line => {
       const trimmed = line.trim();
@@ -2017,7 +2019,7 @@ function exportPlayingFile() {
   setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
-// History
+// History & Permanent Disk Deletion
 async function loadHistoryList() {
   const listEl = document.getElementById("historyList");
   const files = await DB.getAll();
