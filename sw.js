@@ -4,7 +4,7 @@
  */
 
 // Bumped version forces Chrome to immediately install the updated index.html
-const CACHE_NAME = "streamsink-core-v7";
+const CACHE_NAME = "streamsink-core-v8";
 
 const PRECACHE_ASSETS = [
   "./",
