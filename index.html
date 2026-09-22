@@ -141,7 +141,7 @@
     .btn-danger-pill { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger); color: #f87171; border-radius: 8px; padding: 4px 10px; font-size: 0.72rem; }
     .btn-warning-pill { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--warning); color: #fbbf24; border-radius: 8px; padding: 4px 10px; font-size: 0.72rem; }
 
-    /* Collapsible Custom Headers Drawer */
+    /* Collapsible Drawers */
     details.headers-drawer {
       background: var(--card-sub);
       border: 1px solid var(--border);
@@ -160,9 +160,7 @@
       align-items: center;
       user-select: none;
     }
-    details.headers-drawer summary:hover {
-      color: #fff;
-    }
+    details.headers-drawer summary:hover { color: #fff; }
     .headers-content {
       padding: 8px 12px 12px 12px;
       border-top: 1px solid var(--border);
@@ -183,9 +181,7 @@
       outline: none;
       resize: vertical;
     }
-    textarea.headers-input:focus {
-      border-color: var(--border-focus);
-    }
+    textarea.headers-input:focus { border-color: var(--border-focus); }
 
     /* Stream Info Grid */
     .info-specs-grid {
@@ -333,7 +329,7 @@
         <button class="btn btn-primary-action" id="btnAnalyze" onclick="analyzeManifest()">🔍 Analyze</button>
       </div>
 
-      <!-- NEW: Collapsible Custom Headers Drawer -->
+      <!-- Collapsible Custom Headers Drawer -->
       <details class="headers-drawer">
         <summary>
           <div style="display:flex; align-items:center; gap:6px;">
@@ -344,7 +340,7 @@
         <div class="headers-content">
           <textarea id="customHeadersInput" class="headers-input" placeholder="Referer: https://xyz.com/&#10;Origin: https://abc.com&#10;Cookie: session=xyz&#10;Authorization: Bearer token" oninput="saveCustomHeaders()"></textarea>
           <span style="font-size:0.68rem; color:var(--text-muted);">
-            Format: <span style="color:#cbd5e1; font-family:var(--font-mono);">Header-Name: Value</span> (one per line). Forwarded via your Cloudflare Worker.
+            Format: <span style="color:#cbd5e1; font-family:var(--font-mono);">Header-Name: Value</span> (one per line). Forwarded via Cloudflare Worker.
           </span>
         </div>
       </details>
@@ -550,11 +546,53 @@
     </div>
   </main>
 
-  <!-- VIEW 4: Settings & Storage Footprint Inspector -->
+  <!-- VIEW 4: Settings & Storage Inspector -->
   <main id="settingsView" style="display: none; flex-direction: column; gap: 12px;">
+    
+    <!-- Backup & Restore System Card -->
     <div class="card">
       <div class="card-header-clean">
-        <div class="card-title-label">💾 Browser Storage Footprint</div>
+        <div class="card-title-label">💾 Backup & Restore (Auto-Sync)</div>
+        <span class="status-pill" id="backupStatusPill" style="font-size:0.65rem; background:rgba(6,182,212,0.15); border-color:var(--cyan); color:#38bdf8;">Single File Overwrite</span>
+      </div>
+      
+      <div id="backupFolderStatus" style="font-size: 0.78rem; color: var(--text-muted); padding: 8px; background: var(--card-sub); border-radius: 8px; border: 1px solid var(--border);">
+        Target: No backup folder selected (Manual only)
+      </div>
+
+      <div class="selectors-row">
+        <button class="btn btn-secondary-flat" onclick="selectBackupFolder()">📁 Choose Backup Folder</button>
+        <button class="btn btn-primary-action" onclick="performBackup(true)">⚡ Backup Now</button>
+      </div>
+
+      <div class="field-box" style="margin-top: 2px;">
+        <div class="field-label">Auto-Backup Frequency</div>
+        <select id="autoBackupMode" onchange="updateAutoBackupSetting()">
+          <option value="change" selected>On Every Change (Settings / History updates)</option>
+          <option value="24h">Every 24 Hours</option>
+          <option value="off">Disabled (Manual Only)</option>
+        </select>
+      </div>
+
+      <div class="selectors-row" style="margin-top: 2px;">
+        <button class="btn btn-secondary-flat" onclick="restoreFromBackupFolder()">📥 Restore From Folder</button>
+        <button class="btn btn-secondary-flat" onclick="exportBackupFile()">📤 Export .JSON</button>
+      </div>
+
+      <button class="btn btn-secondary-flat" style="font-size:0.75rem; padding:6px;" onclick="document.getElementById('restoreFileInput').click()">
+        📂 Restore From .JSON File
+      </button>
+      <input type="file" id="restoreFileInput" accept=".json" style="display: none;" onchange="importBackupFile(event)" />
+
+      <div id="lastBackupMetaText" style="font-size: 0.7rem; color: var(--text-muted); text-align: center;">
+        Last Backup: Never
+      </div>
+    </div>
+
+    <!-- Browser Storage Footprint -->
+    <div class="card">
+      <div class="card-header-clean">
+        <div class="card-title-label">🗄️ Browser Storage Footprint</div>
         <button class="btn-secondary-flat" style="width:auto; padding:3px 8px; font-size:0.72rem;" onclick="updateStorageStats()">Refresh</button>
       </div>
       <div id="storageText" style="font-size:0.78rem; color:var(--text-muted);">Calculating storage usage...</div>
@@ -567,6 +605,7 @@
       </div>
     </div>
 
+    <!-- Storage Destination Card -->
     <div class="card">
       <div class="card-title-label">Storage Destination</div>
       <div id="folderStatus" style="font-size: 0.8rem; color: var(--text-muted); padding: 8px; background: var(--card-sub); border-radius: 8px;">
@@ -576,7 +615,7 @@
       
       <div class="field-box" style="margin-top:6px;">
         <div class="field-label">Storage Engine</div>
-        <select id="storagePreference">
+        <select id="storagePreference" onchange="triggerAutoBackup()">
           <option value="auto">Auto-Select (Direct Folder / StreamSaver → Blob fallback)</option>
           <option value="directory">Custom Folder (File System Access)</option>
           <option value="streamsaver">StreamSaver.js (Direct Disk Pipe)</option>
@@ -585,11 +624,12 @@
       </div>
     </div>
 
+    <!-- CORS Tuning -->
     <div class="card">
       <div class="card-title-label">CORS & Concurrency Tuning</div>
       <div class="field-box">
         <div class="field-label">CORS Proxy Mode</div>
-        <select id="corsMode" onchange="handleCorsModeChange()">
+        <select id="corsMode" onchange="handleCorsModeChange(); triggerAutoBackup();">
           <option value="custom" selected>Cloudflare Worker Proxy (Recommended)</option>
           <option value="direct">Direct (No Proxy)</option>
           <option value="public">Public Proxy Fallback (allorigins)</option>
@@ -598,12 +638,12 @@
 
       <div id="workerWrapper" class="field-box">
         <div class="field-label">Cloudflare Worker Base URL</div>
-        <input type="text" id="workerUrl" value="https://streamsink-proxy.bakhtiyaralvi03.workers.dev/" />
+        <input type="text" id="workerUrl" value="https://streamsink-proxy.bakhtiyaralvi03.workers.dev/" oninput="triggerAutoBackup()" />
       </div>
 
       <div class="field-box">
         <div class="field-label">Concurrency Speed Profiler</div>
-        <select id="concurrencyProfileSelect">
+        <select id="concurrencyProfileSelect" onchange="triggerAutoBackup()">
           <option value="auto" selected>Dynamic Auto-Profiler (1–6 threads)</option>
           <option value="2">Locked: 2 Streams</option>
           <option value="3">Locked: 3 Streams</option>
@@ -775,7 +815,7 @@ async function enableSystemHooks() {
 
 /**
  * -----------------------------------------------------------------------------
- * 2. Fault-Tolerant Persistent Storage (IndexedDB)
+ * 2. Fault-Tolerant Persistent Storage (IndexedDB v4)
  * -----------------------------------------------------------------------------
  */
 const DB = {
@@ -783,11 +823,12 @@ const DB = {
   async getDb() {
     if (this.db && !this.db.closing) return this.db;
     return new Promise((resolve, reject) => {
-      const req = indexedDB.open("StreamSinkEnterpriseDB", 3);
+      const req = indexedDB.open("StreamSinkEnterpriseDB", 4);
       req.onupgradeneeded = (e) => {
         const db = e.target.result;
         if (!db.objectStoreNames.contains("downloads")) db.createObjectStore("downloads", { keyPath: "id", autoIncrement: true });
         if (!db.objectStoreNames.contains("chunks")) db.createObjectStore("chunks", { keyPath: "key" });
+        if (!db.objectStoreNames.contains("config")) db.createObjectStore("config", { keyPath: "key" });
       };
       req.onsuccess = (e) => {
         this.db = e.target.result;
@@ -796,6 +837,24 @@ const DB = {
       };
       req.onerror = () => reject(req.error);
     });
+  },
+  async setConfig(key, val) {
+    try {
+      const db = await this.getDb();
+      const tx = db.transaction("config", "readwrite");
+      tx.objectStore("config").put({ key, val });
+    } catch {}
+  },
+  async getConfig(key) {
+    try {
+      const db = await this.getDb();
+      return await new Promise((resolve) => {
+        const tx = db.transaction("config", "readonly");
+        const req = tx.objectStore("config").get(key);
+        req.onsuccess = () => resolve(req.result ? req.result.val : null);
+        req.onerror = () => resolve(null);
+      });
+    } catch { return null; }
   },
   async cacheChunk(streamUrl, seq, data) {
     try {
@@ -843,7 +902,7 @@ const DB = {
   async saveDownload(record) {
     try {
       const db = await this.getDb();
-      return await new Promise((resolve, reject) => {
+      await new Promise((resolve, reject) => {
         const tx = db.transaction("downloads", "readwrite");
         tx.oncomplete = () => { this.updateBadge(); resolve(); };
         tx.onerror = () => reject(tx.error);
@@ -854,6 +913,7 @@ const DB = {
           else reject(err);
         }
       });
+      triggerAutoBackup();
     } catch (e) { Logger.warn(`History save bypassed: ${e.message}`); }
   },
   async getAll() {
@@ -872,7 +932,10 @@ const DB = {
       const db = await this.getDb();
       const tx = db.transaction("downloads", "readwrite");
       tx.objectStore("downloads").delete(id);
-      tx.oncomplete = () => this.updateBadge();
+      tx.oncomplete = () => {
+        this.updateBadge();
+        triggerAutoBackup();
+      };
     } catch {}
   },
   async clearAll() {
@@ -880,7 +943,10 @@ const DB = {
       const db = await this.getDb();
       const tx = db.transaction("downloads", "readwrite");
       tx.objectStore("downloads").clear();
-      tx.oncomplete = () => this.updateBadge();
+      tx.oncomplete = () => {
+        this.updateBadge();
+        triggerAutoBackup();
+      };
     } catch {}
   },
   async updateBadge() {
@@ -890,7 +956,10 @@ const DB = {
     updateStorageStats();
   }
 };
-DB.getDb().then(() => DB.updateBadge()).catch(() => {});
+DB.getDb().then(() => {
+  DB.updateBadge();
+  initBackupFolderSystem();
+}).catch(() => {});
 
 /**
  * -----------------------------------------------------------------------------
@@ -997,6 +1066,8 @@ async function purgeAppStorage() {
  * -----------------------------------------------------------------------------
  */
 let customDirectoryHandle = null;
+let backupDirectoryHandle = null;
+const BACKUP_FILENAME = "streamsink_backup.json";
 const DEFAULT_WORKER_URL = "https://streamsink-proxy.bakhtiyaralvi03.workers.dev/";
 
 function getCustomHeaders() {
@@ -1018,6 +1089,7 @@ function getCustomHeaders() {
 function saveCustomHeaders() {
   const val = document.getElementById("customHeadersInput")?.value || "";
   localStorage.setItem("streamsink_custom_headers", val);
+  triggerAutoBackup();
 }
 
 function loadSavedCustomHeaders() {
@@ -1066,7 +1138,6 @@ const NetworkManager = {
     const opts = { ...options };
     const headers = new Headers(opts.headers || {});
 
-    // Automatically inject Custom Headers via X-Forward-* and X-Custom-Headers
     const custom = getCustomHeaders();
     const customObj = {};
     for (const [k, v] of Object.entries(custom)) {
@@ -1724,7 +1795,277 @@ class ExecutionCoordinator {
 
 /**
  * -----------------------------------------------------------------------------
- * 12. UI Controller & Streaming Engine (With Direct MP4 Detection & Header Sync)
+ * 12. Backup & Restore System (Single File Overwrite & Auto-Sync Engine)
+ * -----------------------------------------------------------------------------
+ */
+let autoBackupDebounceTimer = null;
+
+async function initBackupFolderSystem() {
+  const savedMode = localStorage.getItem("streamsink_autobackup_mode") || "change";
+  const sel = document.getElementById("autoBackupMode");
+  if (sel) sel.value = savedMode;
+
+  const lastTime = localStorage.getItem("streamsink_last_backup_time");
+  updateLastBackupDisplay(lastTime);
+
+  try {
+    const handle = await DB.getConfig("backup_dir_handle");
+    if (handle) {
+      backupDirectoryHandle = handle;
+      document.getElementById("backupFolderStatus").innerText = `Target: ${backupDirectoryHandle.name}/${BACKUP_FILENAME}`;
+      Logger.info(`Backup folder restored: ${backupDirectoryHandle.name}`);
+    }
+  } catch {}
+
+  if (savedMode === "24h") {
+    const elapsed = Date.now() - (parseInt(lastTime, 10) || 0);
+    if (elapsed >= 24 * 60 * 60 * 1000) {
+      Logger.info("24 hours elapsed since last backup. Triggering auto-backup...");
+      performBackup(false);
+    }
+  }
+}
+
+function updateAutoBackupSetting() {
+  const mode = document.getElementById("autoBackupMode").value;
+  localStorage.setItem("streamsink_autobackup_mode", mode);
+  Logger.info(`Auto-backup mode set to: ${mode}`);
+  triggerAutoBackup();
+}
+
+function updateLastBackupDisplay(timestamp) {
+  const el = document.getElementById("lastBackupMetaText");
+  if (!el) return;
+  if (!timestamp) {
+    el.innerText = "Last Backup: Never";
+    return;
+  }
+  const dateStr = new Date(parseInt(timestamp, 10)).toLocaleString();
+  el.innerText = `Last Backup: ${dateStr}`;
+}
+
+async function selectBackupFolder() {
+  if ("showDirectoryPicker" in window) {
+    try {
+      backupDirectoryHandle = await window.showDirectoryPicker({ mode: "readwrite" });
+      await DB.setConfig("backup_dir_handle", backupDirectoryHandle);
+      document.getElementById("backupFolderStatus").innerText = `Target: ${backupDirectoryHandle.name}/${BACKUP_FILENAME}`;
+      Logger.info(`Backup folder configured: ${backupDirectoryHandle.name}`);
+      alert(`Backup folder set: ${backupDirectoryHandle.name}\nSingle file: ${BACKUP_FILENAME}`);
+      performBackup(false);
+    } catch (e) {
+      Logger.warn(`Folder select aborted: ${e.message}`);
+    }
+  } else {
+    alert("Folder selection is not supported in this browser. Use 'Export .JSON' below to save backups manually.");
+  }
+}
+
+async function generateBackupPayload() {
+  const historyList = await DB.getAll();
+  // Strip heavy blobs — backup ONLY settings & history metadata
+  const cleanHistory = historyList.map(h => ({
+    id: h.id,
+    filename: h.filename,
+    mime: h.mime,
+    size: h.size,
+    date: h.date,
+    folderName: h.folderName || null
+  }));
+
+  return {
+    app: "StreamSink",
+    version: 1,
+    timestamp: Date.now(),
+    settings: {
+      corsMode: document.getElementById("corsMode").value,
+      workerUrl: document.getElementById("workerUrl").value,
+      storagePreference: document.getElementById("storagePreference").value,
+      concurrencyProfileSelect: document.getElementById("concurrencyProfileSelect").value,
+      customHeaders: localStorage.getItem("streamsink_custom_headers") || "",
+      autoBackupMode: localStorage.getItem("streamsink_autobackup_mode") || "change"
+    },
+    history: cleanHistory
+  };
+}
+
+async function performBackup(isManual = false) {
+  try {
+    const payload = await generateBackupPayload();
+    const jsonStr = JSON.stringify(payload, null, 2);
+
+    if (backupDirectoryHandle) {
+      let perm = await backupDirectoryHandle.queryPermission({ mode: "readwrite" });
+      if (perm !== "granted") {
+        perm = await backupDirectoryHandle.requestPermission({ mode: "readwrite" });
+      }
+
+      if (perm === "granted") {
+        // OVERWRITES the existing single file
+        const fileHandle = await backupDirectoryHandle.getFileHandle(BACKUP_FILENAME, { create: true });
+        const writable = await fileHandle.createWritable();
+        await writable.write(jsonStr);
+        await writable.close();
+
+        const now = Date.now();
+        localStorage.setItem("streamsink_last_backup_time", now);
+        updateLastBackupDisplay(now);
+        Logger.info(`Backup overwritten successfully to ${backupDirectoryHandle.name}/${BACKUP_FILENAME}`);
+        if (isManual) alert(`Backup saved to ${backupDirectoryHandle.name}/${BACKUP_FILENAME}`);
+        return true;
+      }
+    }
+
+    if (isManual) {
+      exportBackupFile();
+    }
+  } catch (err) {
+    Logger.error(`Backup failed: ${err.message}`);
+    if (isManual) alert("Backup error: " + err.message);
+  }
+  return false;
+}
+
+function triggerAutoBackup() {
+  const mode = localStorage.getItem("streamsink_autobackup_mode") || "change";
+  if (mode === "off") return;
+
+  if (mode === "24h") {
+    const lastTime = parseInt(localStorage.getItem("streamsink_last_backup_time"), 10) || 0;
+    if (Date.now() - lastTime < 24 * 60 * 60 * 1000) return;
+  }
+
+  clearTimeout(autoBackupDebounceTimer);
+  autoBackupDebounceTimer = setTimeout(() => {
+    performBackup(false);
+  }, 1200);
+}
+
+async function restoreFromBackupFolder() {
+  if (!backupDirectoryHandle) {
+    return alert("No backup folder selected. Please choose a folder first or use 'Restore From .JSON File'.");
+  }
+
+  try {
+    let perm = await backupDirectoryHandle.queryPermission({ mode: "readwrite" });
+    if (perm !== "granted") perm = await backupDirectoryHandle.requestPermission({ mode: "readwrite" });
+    if (perm !== "granted") return alert("Permission to access folder was denied.");
+
+    const fileHandle = await backupDirectoryHandle.getFileHandle(BACKUP_FILENAME, { create: false });
+    const file = await fileHandle.getFile();
+    const text = await file.text();
+    const data = JSON.parse(text);
+    await applyRestoredData(data);
+  } catch (err) {
+    Logger.error(`Restore error: ${err.message}`);
+    alert(`Failed to restore from folder: ${err.message}`);
+  }
+}
+
+async function exportBackupFile() {
+  try {
+    const payload = await generateBackupPayload();
+    const jsonStr = JSON.stringify(payload, null, 2);
+    const blob = new Blob([jsonStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = BACKUP_FILENAME;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+
+    const now = Date.now();
+    localStorage.setItem("streamsink_last_backup_time", now);
+    updateLastBackupDisplay(now);
+    Logger.info("Backup exported as .json download.");
+  } catch (e) {
+    alert("Export failed: " + e.message);
+  }
+}
+
+function importBackupFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      await applyRestoredData(data);
+    } catch (err) {
+      alert("Invalid backup file: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = "";
+}
+
+async function applyRestoredData(data) {
+  if (!data || !data.settings) {
+    return alert("Invalid backup format: Missing settings.");
+  }
+
+  if (!confirm(`Restore settings and ${data.history ? data.history.length : 0} history records?`)) {
+    return;
+  }
+
+  // 1. Restore Settings
+  const s = data.settings;
+  if (s.corsMode) document.getElementById("corsMode").value = s.corsMode;
+  if (s.workerUrl) document.getElementById("workerUrl").value = s.workerUrl;
+  if (s.storagePreference) document.getElementById("storagePreference").value = s.storagePreference;
+  if (s.concurrencyProfileSelect) document.getElementById("concurrencyProfileSelect").value = s.concurrencyProfileSelect;
+  handleCorsModeChange();
+
+  if (s.customHeaders !== undefined) {
+    localStorage.setItem("streamsink_custom_headers", s.customHeaders);
+    const headerInput = document.getElementById("customHeadersInput");
+    if (headerInput) headerInput.value = s.customHeaders;
+  }
+
+  if (s.autoBackupMode) {
+    localStorage.setItem("streamsink_autobackup_mode", s.autoBackupMode);
+    document.getElementById("autoBackupMode").value = s.autoBackupMode;
+  }
+
+  // 2. Restore History Metadata into IndexedDB
+  if (Array.isArray(data.history) && data.history.length > 0) {
+    const db = await DB.getDb();
+    const existing = await DB.getAll();
+    const existingNames = new Set(existing.map(x => x.filename));
+
+    const tx = db.transaction("downloads", "readwrite");
+    const store = tx.objectStore("downloads");
+
+    for (const item of data.history) {
+      if (!existingNames.has(item.filename)) {
+        store.add({
+          filename: item.filename,
+          mime: item.mime,
+          size: item.size,
+          date: item.date,
+          folderName: item.folderName || null,
+          blob: null
+        });
+      }
+    }
+
+    await new Promise((resolve) => {
+      tx.oncomplete = resolve;
+      tx.onerror = resolve;
+    });
+  }
+
+  await DB.updateBadge();
+  Logger.info("Backup successfully restored into StreamSink.");
+  alert("Settings & History restored successfully!");
+}
+
+/**
+ * -----------------------------------------------------------------------------
+ * 13. UI Controller & Streaming Engine (With Direct MP4 Detection & Header Sync)
  * -----------------------------------------------------------------------------
  */
 let coordinator = null;
@@ -1784,7 +2125,6 @@ async function analyzeManifest() {
   try {
     const isDirectMp4 = url.includes(".mp4") || (!url.includes(".m3u8") && !url.includes("playlist"));
 
-    // Suggest clean filename
     let suggestedName = "video_" + Date.now();
     try {
       const u = new URL(url);
@@ -1802,7 +2142,6 @@ async function analyzeManifest() {
     const aSelect = document.getElementById("audioSelect");
     const subSec = document.getElementById("subtitlesSection");
 
-    // Direct MP4 Branch
     if (isDirectMp4) {
       Logger.info("Direct Progressive MP4 stream detected.");
       vSelect.innerHTML = `<option value="${url}">Direct MP4 Source</option>`;
@@ -1824,7 +2163,6 @@ async function analyzeManifest() {
       return;
     }
 
-    // Standard HLS Playlist Branch
     document.getElementById("customRangeGroup").style.display = "grid";
     const res = await NetworkManager.fetchWithRetry(url);
     const parsed = HLSParser.parse(await res.text(), url);
@@ -1959,14 +2297,12 @@ async function streamVideoOnline() {
   document.getElementById("btnExportPlaying").style.display = "none";
   toggleModal("playerModal", true);
 
-  // Direct MP4 Playback
   if (url.includes(".mp4") || (!url.includes(".m3u8") && !url.includes("playlist"))) {
     video.src = NetworkManager.wrapUrl(url);
     video.play().catch(() => {});
     return;
   }
 
-  // HLS Manifest Playback with Relative Path Rewriting
   try {
     Logger.info("Preparing stream for in-app playback...");
     const res = await NetworkManager.fetchWithRetry(url);
@@ -1997,7 +2333,6 @@ async function streamVideoOnline() {
               if (!context.url.startsWith("blob:")) {
                 context.url = NetworkManager.wrapUrl(context.url);
               }
-              // Forward custom headers into HLS player loader
               const custom = getCustomHeaders();
               for (const [k, v] of Object.entries(custom)) {
                 cfg.headers = cfg.headers || {};
@@ -2064,7 +2399,6 @@ async function startPipeline(actionType, overrideUrl = null) {
   try {
     const isDirectMp4 = targetUrl.includes(".mp4") || (!targetUrl.includes(".m3u8") && !targetUrl.includes("playlist"));
 
-    // Direct MP4 Pipeline
     if (isDirectMp4) {
       Logger.info("Downloading progressive MP4 via storage pipe...");
       const sink = new AdaptiveStorageSink(storagePref, filename, mime);
@@ -2108,7 +2442,6 @@ async function startPipeline(actionType, overrideUrl = null) {
       return;
     }
 
-    // HLS Pipeline
     const res = await NetworkManager.fetchWithRetry(targetUrl);
     const media = HLSParser.parse(await res.text(), targetUrl);
 
