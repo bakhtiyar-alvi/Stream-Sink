@@ -340,7 +340,7 @@
         <div class="headers-content">
           <textarea id="customHeadersInput" class="headers-input" placeholder="Referer: https://xyz.com/&#10;Origin: https://abc.com&#10;Cookie: session=xyz&#10;Authorization: Bearer token" oninput="saveCustomHeaders()"></textarea>
           <span style="font-size:0.68rem; color:var(--text-muted);">
-            Format: <span style="color:#cbd5e1; font-family:var(--font-mono);">Header-Name: Value</span> (one per line). Forwarded via Cloudflare Worker.
+            Format: <span style="color:#cbd5e1; font-family:var(--font-mono);">Header-Name: Value</span> (one per line). Forwarded via your Cloudflare Worker.
           </span>
         </div>
       </details>
@@ -546,10 +546,10 @@
     </div>
   </main>
 
-  <!-- VIEW 4: Settings & Storage Inspector -->
+  <!-- VIEW 4: Settings & Storage Footprint Inspector -->
   <main id="settingsView" style="display: none; flex-direction: column; gap: 12px;">
     
-    <!-- Backup & Restore System Card -->
+    <!-- Backup & Restore Management Card -->
     <div class="card">
       <div class="card-header-clean">
         <div class="card-title-label">💾 Backup & Restore (Auto-Sync)</div>
@@ -589,7 +589,7 @@
       </div>
     </div>
 
-    <!-- Browser Storage Footprint -->
+    <!-- Storage Footprint Card -->
     <div class="card">
       <div class="card-header-clean">
         <div class="card-title-label">🗄️ Browser Storage Footprint</div>
@@ -1138,6 +1138,7 @@ const NetworkManager = {
     const opts = { ...options };
     const headers = new Headers(opts.headers || {});
 
+    // Automatically inject Custom Headers via X-Forward-* and X-Custom-Headers
     const custom = getCustomHeaders();
     const customObj = {};
     for (const [k, v] of Object.entries(custom)) {
@@ -1795,7 +1796,7 @@ class ExecutionCoordinator {
 
 /**
  * -----------------------------------------------------------------------------
- * 12. Backup & Restore System (Single File Overwrite & Auto-Sync Engine)
+ * 12. Backup & Restore System (Safe Selection & No Overwrite on Pick)
  * -----------------------------------------------------------------------------
  */
 let autoBackupDebounceTimer = null;
@@ -1813,7 +1814,7 @@ async function initBackupFolderSystem() {
     if (handle) {
       backupDirectoryHandle = handle;
       document.getElementById("backupFolderStatus").innerText = `Target: ${backupDirectoryHandle.name}/${BACKUP_FILENAME}`;
-      Logger.info(`Backup folder restored: ${backupDirectoryHandle.name}`);
+      Logger.info(`Backup folder link restored: ${backupDirectoryHandle.name}`);
     }
   } catch {}
 
@@ -1850,11 +1851,27 @@ async function selectBackupFolder() {
       backupDirectoryHandle = await window.showDirectoryPicker({ mode: "readwrite" });
       await DB.setConfig("backup_dir_handle", backupDirectoryHandle);
       document.getElementById("backupFolderStatus").innerText = `Target: ${backupDirectoryHandle.name}/${BACKUP_FILENAME}`;
-      Logger.info(`Backup folder configured: ${backupDirectoryHandle.name}`);
-      alert(`Backup folder set: ${backupDirectoryHandle.name}\nSingle file: ${BACKUP_FILENAME}`);
-      performBackup(false);
+      Logger.info(`Backup folder selected: ${backupDirectoryHandle.name}`);
+
+      // Check if an existing backup file already exists in the directory
+      try {
+        const existingFileHandle = await backupDirectoryHandle.getFileHandle(BACKUP_FILENAME, { create: false });
+        const file = await existingFileHandle.getFile();
+        const text = await file.text();
+        const parsed = JSON.parse(text);
+        if (parsed && parsed.timestamp) {
+          updateLastBackupDisplay(parsed.timestamp);
+          localStorage.setItem("streamsink_last_backup_time", parsed.timestamp);
+          Logger.info(`Existing backup file detected from: ${new Date(parsed.timestamp).toLocaleString()}`);
+        }
+      } catch {
+        // No existing backup file found in folder, which is normal
+      }
+
+      alert(`Backup folder linked: ${backupDirectoryHandle.name}/\nNo files were overwritten. Backups will save to ${BACKUP_FILENAME} when triggered.`);
+      // NOTE: Intentionally do NOT call performBackup() here to prevent overwriting existing files
     } catch (e) {
-      Logger.warn(`Folder select aborted: ${e.message}`);
+      Logger.warn(`Folder selection cancelled: ${e.message}`);
     }
   } else {
     alert("Folder selection is not supported in this browser. Use 'Export .JSON' below to save backups manually.");
@@ -1863,7 +1880,6 @@ async function selectBackupFolder() {
 
 async function generateBackupPayload() {
   const historyList = await DB.getAll();
-  // Strip heavy blobs — backup ONLY settings & history metadata
   const cleanHistory = historyList.map(h => ({
     id: h.id,
     filename: h.filename,
@@ -1901,7 +1917,6 @@ async function performBackup(isManual = false) {
       }
 
       if (perm === "granted") {
-        // OVERWRITES the existing single file
         const fileHandle = await backupDirectoryHandle.getFileHandle(BACKUP_FILENAME, { create: true });
         const writable = await fileHandle.createWritable();
         await writable.write(jsonStr);
@@ -1910,7 +1925,7 @@ async function performBackup(isManual = false) {
         const now = Date.now();
         localStorage.setItem("streamsink_last_backup_time", now);
         updateLastBackupDisplay(now);
-        Logger.info(`Backup overwritten successfully to ${backupDirectoryHandle.name}/${BACKUP_FILENAME}`);
+        Logger.info(`Backup written successfully to ${backupDirectoryHandle.name}/${BACKUP_FILENAME}`);
         if (isManual) alert(`Backup saved to ${backupDirectoryHandle.name}/${BACKUP_FILENAME}`);
         return true;
       }
@@ -2011,7 +2026,6 @@ async function applyRestoredData(data) {
     return;
   }
 
-  // 1. Restore Settings
   const s = data.settings;
   if (s.corsMode) document.getElementById("corsMode").value = s.corsMode;
   if (s.workerUrl) document.getElementById("workerUrl").value = s.workerUrl;
@@ -2030,7 +2044,6 @@ async function applyRestoredData(data) {
     document.getElementById("autoBackupMode").value = s.autoBackupMode;
   }
 
-  // 2. Restore History Metadata into IndexedDB
   if (Array.isArray(data.history) && data.history.length > 0) {
     const db = await DB.getDb();
     const existing = await DB.getAll();
@@ -2065,7 +2078,7 @@ async function applyRestoredData(data) {
 
 /**
  * -----------------------------------------------------------------------------
- * 13. UI Controller & Streaming Engine (With Direct MP4 Detection & Header Sync)
+ * 13. UI Controller & Streaming Engine
  * -----------------------------------------------------------------------------
  */
 let coordinator = null;
