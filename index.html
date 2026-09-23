@@ -40,7 +40,7 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background: var(--bg); color: var(--text); padding: 12px; display: flex; justify-content: center; min-height: 100vh; }
-    .container { width: 100%; max-width: 520px; display: flex; flex-direction: column; gap: 12px; }
+    .container { width: 100%; max-width: 540px; display: flex; flex-direction: column; gap: 12px; }
 
     /* Header & Transparent Compact Logo */
     header { display: flex; justify-content: space-between; align-items: center; padding: 4px 2px; }
@@ -87,33 +87,33 @@
     }
     .icon-btn-ghost:hover { border-color: var(--border-focus); color: #fff; }
 
-    /* 4-Tab Navigation Grid */
-    .nav-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    /* 5-Tab Navigation Grid */
+    .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
     .nav-item {
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 11px;
-      padding: 9px 4px; display: flex; flex-direction: column; align-items: center; gap: 4px;
-      color: var(--text-muted); font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: 0.2s;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: 8px 2px; display: flex; flex-direction: column; align-items: center; gap: 3px;
+      color: var(--text-muted); font-size: 0.65rem; font-weight: 600; cursor: pointer; transition: 0.2s;
       position: relative; user-select: none;
     }
     .nav-item.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 4px 14px var(--accent-glow); }
     .nav-badge {
-      position: absolute; top: 4px; right: 8px; font-size: 0.65rem; background: rgba(0,0,0,0.35);
-      padding: 1px 5px; border-radius: 99px;
+      position: absolute; top: 3px; right: 4px; font-size: 0.6rem; background: rgba(0,0,0,0.4);
+      padding: 1px 4px; border-radius: 99px;
     }
 
     /* Cards */
     .card {
       background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px;
-      padding: 14px; display: flex; flex-direction: column; gap: 11px; box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      padding: 13px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     }
     .card-header-clean { display: flex; justify-content: space-between; align-items: center; }
     .card-title-label { font-size: 0.85rem; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px; }
 
-    /* Inputs & Form Elements */
+    /* Inputs & Form Controls */
     .input-wrapper { position: relative; width: 100%; }
     input[type="text"], input[type="number"], select, textarea {
       width: 100%; background: var(--card-sub); border: 1px solid var(--border); color: #fff;
-      padding: 11px 36px 11px 12px; border-radius: 10px; font-size: 0.85rem; outline: none; transition: 0.2s;
+      padding: 10px 34px 10px 11px; border-radius: 10px; font-size: 0.82rem; outline: none; transition: 0.2s;
     }
     input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
       border-color: var(--border-focus); box-shadow: 0 0 0 2px var(--cyan-glow);
@@ -126,7 +126,7 @@
     /* Buttons */
     .action-row { display: grid; grid-template-columns: 1fr 1fr 1.3fr; gap: 6px; }
     .btn {
-      width: 100%; padding: 10px; border: none; border-radius: 10px; font-size: 0.82rem; font-weight: 600;
+      width: 100%; padding: 9px; border: none; border-radius: 10px; font-size: 0.8rem; font-weight: 600;
       cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: 0.2s;
     }
     .btn-secondary-flat { background: var(--card-sub); border: 1px solid var(--border); color: #e2e8f0; }
@@ -134,76 +134,51 @@
     .btn-primary-action { background: var(--accent); color: #fff; box-shadow: 0 4px 14px var(--accent-glow); }
     .btn-primary-action:hover:not(:disabled) { background: var(--accent-hover); }
     .btn-hero {
-      background: var(--accent); color: #fff; padding: 13px; font-size: 0.95rem; font-weight: 700;
+      background: var(--accent); color: #fff; padding: 12px; font-size: 0.9rem; font-weight: 700;
       border-radius: 11px; box-shadow: 0 6px 20px var(--accent-glow);
     }
     .btn-hero:hover:not(:disabled) { background: var(--accent-hover); }
-    .btn-danger-pill { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger); color: #f87171; border-radius: 8px; padding: 4px 10px; font-size: 0.72rem; }
-    .btn-warning-pill { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--warning); color: #fbbf24; border-radius: 8px; padding: 4px 10px; font-size: 0.72rem; }
+    .btn-danger-pill { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger); color: #f87171; border-radius: 8px; padding: 4px 8px; font-size: 0.7rem; }
+    .btn-warning-pill { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--warning); color: #fbbf24; border-radius: 8px; padding: 4px 8px; font-size: 0.7rem; }
 
-    /* Collapsible Drawers */
+    /* Drawers */
     details.headers-drawer {
-      background: var(--card-sub);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 2px;
+      background: var(--card-sub); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-top: 2px;
     }
     details.headers-drawer summary {
-      padding: 9px 12px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      cursor: pointer;
-      color: var(--text-muted);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      user-select: none;
+      padding: 8px 11px; font-size: 0.75rem; font-weight: 600; cursor: pointer; color: var(--text-muted);
+      display: flex; justify-content: space-between; align-items: center; user-select: none;
     }
     details.headers-drawer summary:hover { color: #fff; }
     .headers-content {
-      padding: 8px 12px 12px 12px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      padding: 8px 11px 11px 11px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px;
     }
     textarea.headers-input {
-      width: 100%;
-      height: 75px;
-      background: #040810;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: #38bdf8;
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      padding: 8px;
-      outline: none;
-      resize: vertical;
+      width: 100%; height: 70px; background: #040810; border: 1px solid var(--border);
+      border-radius: 8px; color: #38bdf8; font-family: var(--font-mono); font-size: 0.7rem; padding: 7px; outline: none; resize: vertical;
     }
-    textarea.headers-input:focus { border-color: var(--border-focus); }
 
-    /* Stream Info Grid */
+    /* Stream Specs */
     .info-specs-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--card-sub);
-      padding: 12px; border-radius: 11px; border: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: var(--card-sub);
+      padding: 11px; border-radius: 11px; border: 1px solid var(--border);
     }
-    .info-item { display: flex; flex-direction: column; gap: 2px; }
-    .info-label { font-size: 0.7rem; color: var(--text-muted); }
-    .info-val { font-size: 0.82rem; font-weight: 600; color: #fff; font-family: var(--font-mono); }
+    .info-item { display: flex; flex-direction: column; gap: 1px; }
+    .info-label { font-size: 0.68rem; color: var(--text-muted); }
+    .info-val { font-size: 0.8rem; font-weight: 600; color: #fff; font-family: var(--font-mono); }
     .status-pill {
-      font-size: 0.7rem; padding: 2px 8px; border-radius: 99px; font-weight: 600;
+      font-size: 0.68rem; padding: 2px 8px; border-radius: 99px; font-weight: 600;
       background: var(--green-glow); border: 1px solid var(--green); color: #6ee7b7;
     }
 
     /* Selectors */
     .selectors-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .field-box { display: flex; flex-direction: column; gap: 4px; }
-    .field-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; display: flex; align-items: center; gap: 4px; }
-    .tag-prefix { font-size: 0.65rem; background: var(--border); color: #38bdf8; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
+    .field-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; display: flex; align-items: center; gap: 4px; }
+    .tag-prefix { font-size: 0.62rem; background: var(--border); color: #38bdf8; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
 
     /* Progress Card */
-    .progress-status-head { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 600; }
+    .progress-status-head { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; font-weight: 600; }
     .spinner-inline {
       width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.2);
       border-top-color: var(--border-focus); border-radius: 50%; display: inline-block;
@@ -215,37 +190,77 @@
     .progress-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--accent), var(--cyan)); transition: width 0.15s linear; }
     .progress-metrics-pill {
       display: flex; justify-content: space-between; align-items: center; background: var(--card-sub);
-      padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.72rem; font-family: var(--font-mono); color: #cbd5e1;
+      padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.7rem; font-family: var(--font-mono); color: #cbd5e1;
     }
 
-    /* Notice Banners */
-    .notice-box { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--warning); border-radius: 8px; padding: 10px; font-size: 0.8rem; display: flex; flex-direction: column; gap: 8px; }
-    .resume-box { background: var(--green-glow); border: 1px solid var(--green); border-radius: 8px; padding: 10px; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
+    /* Notice & Resume Banners */
+    .notice-box { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--warning); border-radius: 8px; padding: 10px; font-size: 0.78rem; display: flex; flex-direction: column; gap: 8px; }
+    .resume-box { background: var(--green-glow); border: 1px solid var(--green); border-radius: 8px; padding: 9px; font-size: 0.78rem; display: flex; justify-content: space-between; align-items: center; }
 
     /* Collapsible Debug Drawer */
     details.debug-drawer { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
     details.debug-drawer summary {
-      padding: 12px 14px; font-size: 0.82rem; font-weight: 600; cursor: pointer; color: var(--text-muted);
+      padding: 10px 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer; color: var(--text-muted);
       display: flex; justify-content: space-between; align-items: center; user-select: none;
     }
-    .log-container { max-height: 160px; overflow-y: auto; background: #040810; padding: 10px; font-family: var(--font-mono); font-size: 0.72rem; color: #94a3b8; border-top: 1px solid var(--border); }
+    .log-container { max-height: 140px; overflow-y: auto; background: #040810; padding: 9px; font-family: var(--font-mono); font-size: 0.7rem; color: #94a3b8; border-top: 1px solid var(--border); }
     .log-line { margin-bottom: 2px; word-break: break-all; }
     .log-info { color: #94a3b8; }
     .log-warn { color: var(--warning); }
     .log-error { color: var(--danger); }
     .log-network { color: #38bdf8; }
 
+    /* SNIFFER / EXTRACTOR TAB SPECIFIC STYLES */
+    .dropzone-box {
+      border: 2px dashed var(--border); border-radius: 10px; padding: 14px; text-align: center;
+      background: var(--card-sub); cursor: pointer; transition: 0.2s;
+    }
+    .dropzone-box:hover, .dropzone-box.dragover { border-color: var(--cyan); background: rgba(6, 182, 212, 0.08); }
+
+    .stream-results-table {
+      width: 100%; border-collapse: collapse; font-size: 0.75rem; text-align: left;
+    }
+    .stream-results-table th {
+      background: var(--card-sub); padding: 8px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border);
+    }
+    .stream-results-table td {
+      padding: 8px; border-bottom: 1px solid var(--border); vertical-align: middle;
+    }
+    .stream-url-text {
+      max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-mono); color: #cbd5e1;
+    }
+    .type-badge {
+      font-size: 0.62rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-family: var(--font-mono);
+    }
+    .type-badge.hls { background: rgba(37, 99, 235, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .type-badge.mp4 { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); }
+    .type-badge.dash { background: rgba(139, 92, 246, 0.2); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.3); }
+
+    /* IP & VPN Inspector Box */
+    .ip-inspector-box {
+      background: var(--card-sub); border: 1px solid var(--border); border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 6px;
+    }
+    .ip-row {
+      display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding: 4px 0; font-size: 0.78rem;
+    }
+    .ip-row:last-child { border-bottom: none; }
+    .ip-label { color: var(--text-muted); font-weight: 600; }
+    .ip-val { font-family: var(--font-mono); color: #fff; }
+    .vpn-tip-box {
+      background: rgba(16, 185, 129, 0.12); border: 1px solid var(--green); border-radius: 8px; padding: 8px; font-size: 0.75rem; color: #a7f3d0; margin-top: 4px;
+    }
+
     /* Modals */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 16px; z-index: 100; }
-    .modal-content { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; max-width: 480px; width: 100%; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-    textarea.code-box { width: 100%; height: 160px; background: #040810; border: 1px solid var(--border); border-radius: 8px; color: #cbd5e1; font-family: var(--font-mono); font-size: 0.72rem; padding: 8px; resize: vertical; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 14px; z-index: 100; }
+    .modal-content { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; max-width: 480px; width: 100%; padding: 15px; display: flex; flex-direction: column; gap: 11px; }
+    textarea.code-box { width: 100%; height: 150px; background: #040810; border: 1px solid var(--border); border-radius: 8px; color: #cbd5e1; font-family: var(--font-mono); font-size: 0.7rem; padding: 8px; resize: vertical; }
     video, audio { width: 100%; border-radius: 8px; outline: none; background: #000; }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <!-- Top Brand Header with Compact Transparent Logo[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)[span_2](start_span)[span_2](end_span) -->
+  <!-- Top Brand Header with Compact Transparent Logo -->
   <header>
     <div class="header-brand">
       <div class="logo-box">
@@ -279,39 +294,44 @@
     </div>
     <div style="display:flex; gap:6px;">
       <button class="icon-btn-ghost" title="Alerts & WakeLock" onclick="enableSystemHooks()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
       </button>
       <button class="icon-btn-ghost" title="Settings" onclick="switchView('settings')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
       </button>
     </div>
   </header>
 
-  <!-- 4-Tab Navigation Grid[span_3](start_span)[span_3](end_span) -->
+  <!-- 5-Tab Navigation Grid -->
   <div class="nav-grid">
     <div class="nav-item active" id="tabMain" onclick="switchView('main')">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-      <span>Downloader</span>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>Download</span>
+    </div>
+    <div class="nav-item" id="tabSniffer" onclick="switchView('sniffer')">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <span>Sniffer</span>
+      <span class="nav-badge" id="snifferBadge" style="display:none;">0</span>
     </div>
     <div class="nav-item" id="tabBatch" onclick="switchView('batch')">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-      <span>Batch Queue</span>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+      <span>Queue</span>
       <span class="nav-badge" id="queueBadge">0</span>
     </div>
     <div class="nav-item" id="tabHistory" onclick="switchView('history')">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
       <span>History</span>
       <span class="nav-badge" id="historyBadge">0</span>
     </div>
     <div class="nav-item" id="tabSettings" onclick="switchView('settings')">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
       <span>Settings</span>
     </div>
   </div>
 
   <!-- VIEW 1: Main Downloader Shell -->
   <main id="mainView" style="display: flex; flex-direction: column; gap: 12px;">
-    <!-- 1. M3U8 URL Card[span_4](start_span)[span_4](end_span) -->
+    <!-- 1. M3U8 URL Card -->
     <div class="card">
       <div class="card-title-label">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
@@ -338,15 +358,15 @@
           <span style="font-size:0.68rem; color:var(--cyan); font-family:var(--font-mono);">Optional</span>
         </summary>
         <div class="headers-content">
-          <textarea id="customHeadersInput" class="headers-input" placeholder="Referer: https://xyz.com/&#10;Origin: https://abc.com&#10;Cookie: session=xyz&#10;Authorization: Bearer token" oninput="saveCustomHeaders()"></textarea>
+          <textarea id="customHeadersInput" class="headers-input" placeholder="Referer: https://xyz.com/&#10;Origin: https://xyz.com&#10;Cookie: session=xyz&#10;Authorization: Bearer token" oninput="saveCustomHeaders()"></textarea>
           <span style="font-size:0.68rem; color:var(--text-muted);">
-            Format: <span style="color:#cbd5e1; font-family:var(--font-mono);">Header-Name: Value</span> (one per line). Forwarded via your Cloudflare Worker.
+            Format: <span style="color:#cbd5e1; font-family:var(--font-mono);">Header-Name: Value</span> (one per line). Forwarded via Cloudflare Worker.
           </span>
         </div>
       </details>
     </div>
 
-    <!-- 2. Stream Information Specs[span_5](start_span)[span_5](end_span) -->
+    <!-- 2. Stream Information Specs -->
     <div class="card" id="streamInfoCard" style="display: none;">
       <div class="card-header-clean">
         <div class="card-title-label">
@@ -392,7 +412,7 @@
       </div>
     </div>
 
-    <!-- 3. Smart Selectors & Download Trigger[span_6](start_span)[span_6](end_span) -->
+    <!-- 3. Smart Selectors & Download Trigger -->
     <div class="card" id="configCard" style="display: none;">
       <div class="selectors-row">
         <div class="field-box">
@@ -450,10 +470,10 @@
         <button class="btn btn-secondary-flat" style="width:auto; padding:2px 8px; font-size:0.72rem;" onclick="clearActiveStreamCache()">Purge</button>
       </div>
 
-      <!-- Action Button[span_7](start_span)[span_7](end_span) -->
+      <!-- Action Button -->
       <button class="btn btn-hero" onclick="handlePrimaryAction()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
-        <span>Start Download</span>
+        <span>Start Download/Play</span>
       </button>
 
       <button class="btn btn-secondary-flat" onclick="addCurrentToBatch()" style="font-size:0.78rem; padding:8px;">
@@ -461,7 +481,7 @@
       </button>
     </div>
 
-    <!-- 4. Progress Card[span_8](start_span)[span_8](end_span) -->
+    <!-- 4. Progress Card -->
     <div class="card" id="progressCard" style="display: none;">
       <div class="progress-status-head">
         <div style="display:flex; align-items:center; gap:8px;">
@@ -475,7 +495,7 @@
         <div class="progress-bar-fill" id="progressBar"></div>
       </div>
 
-      <!-- Live Metrics Pill[span_9](start_span)[span_9](end_span) -->
+      <!-- Live Metrics Pill -->
       <div class="progress-metrics-pill">
         <span id="metricSegments">📄 Chunk 0 / 0</span>
         <span id="metricSpeed">⚡ 0.00 MB/s</span>
@@ -503,7 +523,7 @@
       </div>
     </div>
 
-    <!-- 5. Debug Drawer[span_10](start_span)[span_10](end_span) -->
+    <!-- 5. Debug Drawer -->
     <details class="debug-drawer" open>
       <summary>
         <div style="display:flex; align-items:center; gap:6px;">
@@ -516,11 +536,100 @@
     </details>
   </main>
 
-  <!-- VIEW 2: Batch Queue -->
+  <!-- VIEW 2: VIDEO SNIFFER & LINK EXTRACTOR (1DM-Style Grabber + LinkForge Core) -->
+  <main id="snifferView" style="display: none; flex-direction: column; gap: 12px;">
+    
+    <!-- 1. Webpage Video Sniffer (1DM Style) -->
+    <div class="card">
+      <div class="card-title-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+        <span>Webpage Video Sniffer (Auto-Extract Streams)</span>
+      </div>
+      <p style="font-size:0.75rem; color:var(--text-muted);">
+        Paste any webpage URL where a video is hosted. The sniffer will scrape the page source and isolate all hidden HLS playlists and MP4 files.
+      </p>
+      <div class="input-wrapper">
+        <input type="text" id="sniffWebpageUrl" placeholder="https://example.com/watch/video-title" />
+      </div>
+      <div class="selectors-row">
+        <button class="btn btn-secondary-flat" onclick="pasteToSniffer()">📋 Paste Page</button>
+        <button class="btn btn-primary-action" id="btnRunSniff" onclick="sniffWebPage()">⚡ Sniff Streams</button>
+      </div>
+    </div>
+
+    <!-- 2. Raw Code / HAR / Links Ingestor & Drag-and-Drop Dropzone -->
+    <div class="card">
+      <div class="card-title-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+        <span>Bulk Link & Source Code Ingestion</span>
+      </div>
+
+      <div class="dropzone-box" id="snifferDropzone" onclick="document.getElementById('snifferFileInput').click()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom:4px; color:var(--cyan);"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        <div style="font-size:0.8rem; font-weight:600;">Drag & Drop files (.txt, .json, .csv) or click to browse</div>
+        <div style="font-size:0.68rem; color:var(--text-muted);">Processed 100% locally in browser memory.</div>
+        <input type="file" id="snifferFileInput" accept=".txt,.json,.csv,.har" style="display:none;" onchange="handleSnifferFileUpload(event)" />
+      </div>
+
+      <textarea id="rawTextarea" rows="3" placeholder="Or paste raw HTML, JavaScript, HAR network logs, or multi-line URLs here..."></textarea>
+
+      <div class="selectors-row">
+        <button class="btn btn-primary-action" onclick="parseRawTextMedia()">⚡ Extract Media Links</button>
+        <button class="btn btn-secondary-flat" onclick="clearExtractedStreams()">Clear List</button>
+      </div>
+    </div>
+
+    <!-- 3. Direct Server IP & VPN Inspector -->
+    <div class="card">
+      <div class="card-header-clean">
+        <div class="card-title-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <span>Server IP & VPN Node Intelligence</span>
+        </div>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <input type="text" id="directIpInput" placeholder="Domain or CDN URL (e.g., cdntrex.com)" />
+        <button class="btn btn-primary-action" style="width:110px;" id="btnInspectIp" onclick="runDirectIpLookup()">Inspect</button>
+      </div>
+      <div id="directIpContainer" style="display:none; margin-top:4px;"></div>
+    </div>
+
+    <!-- 4. Extracted Media Links Results Table -->
+    <div class="card" id="extractedResultsCard">
+      <div class="card-header-clean">
+        <div class="card-title-label">
+          <span>Detected Streams (<span id="detectedStreamsCount">0</span>)</span>
+        </div>
+        <button class="btn-secondary-flat" style="padding:3px 8px; font-size:0.7rem;" onclick="copyAllExtractedStreams()">📋 Copy All</button>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="stream-results-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Type</th>
+              <th>Media Stream URL</th>
+              <th style="text-align:right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="extractedTableBody">
+            <tr>
+              <td colspan="4" style="text-align:center; padding:18px; color:var(--text-muted);">
+                No media streams extracted yet. Paste a webpage link or raw code above.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- VIEW 3: Batch Queue -->
   <main id="batchView" style="display: none; flex-direction: column; gap: 12px;">
     <div class="card">
       <div class="card-title-label">Batch Queue Manager</div>
-      <textarea id="batchTextarea" placeholder="Paste multiple M3U8 URLs (one per line)..." style="height: 100px;"></textarea>
+      <textarea id="batchTextarea" placeholder="Paste multiple M3U8 or MP4 URLs (one per line)..." style="height: 100px;"></textarea>
       <div class="selectors-row">
         <button class="btn btn-secondary-flat" onclick="parseBatchUrls()">Add URLs</button>
         <button class="btn btn-primary-action" id="btnStartBatch" onclick="startBatchQueue()">Run Batch</button>
@@ -535,7 +644,7 @@
     </div>
   </main>
 
-  <!-- VIEW 3: History -->
+  <!-- VIEW 4: History -->
   <main id="historyView" style="display: none; flex-direction: column; gap: 12px;">
     <div class="card">
       <div class="card-header-clean">
@@ -546,10 +655,10 @@
     </div>
   </main>
 
-  <!-- VIEW 4: Settings & Storage Footprint Inspector -->
+  <!-- VIEW 5: Settings & Storage Inspector -->
   <main id="settingsView" style="display: none; flex-direction: column; gap: 12px;">
     
-    <!-- Backup & Restore Management Card -->
+    <!-- Backup & Restore System Card -->
     <div class="card">
       <div class="card-header-clean">
         <div class="card-title-label">💾 Backup & Restore (Auto-Sync)</div>
@@ -701,7 +810,7 @@
 <!-- MODAL 4: Cloudflare Worker Code -->
 <div class="modal" id="workerModal">
   <div class="modal-content">
-    <span class="card-title-label">Cloudflare Worker CORS Script</span>
+    <span class="card-title-label">Cloudflare Worker Proxy & Sniffer Script</span>
     <textarea class="code-box" readonly>
 export default {
   async fetch(request) {
@@ -716,7 +825,35 @@ export default {
       });
     }
 
-    const targetUrl = new URL(request.url).searchParams.get("url");
+    const reqUrl = new URL(request.url);
+
+    // 1. SNIFFER ROUTE: Scrapes webpage HTML for embedded .m3u8, .mpd, and .mp4 links
+    const sniffPageUrl = reqUrl.searchParams.get("sniff");
+    if (sniffPageUrl) {
+      try {
+        const pageRes = await fetch(sniffPageUrl, {
+          headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            "Referer": sniffPageUrl
+          }
+        });
+        const html = await pageRes.text();
+        const streamRegex = /(https?:\/\/[^"'\s\\]+?\.(?:m3u8|mp4|mpd)[^"'\s\\]*)/gi;
+        const matches = [...new Set(html.match(streamRegex) || [])];
+        const cleaned = matches.map(u => u.replace(/\\\/|\/+/g, (m) => m.startsWith("\\") ? "/" : m));
+
+        return new Response(JSON.stringify({ target: sniffPageUrl, streams: cleaned }), {
+          headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+        });
+      } catch (err) {
+        return new Response(JSON.stringify({ error: err.message, streams: [] }), {
+          status: 500, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+        });
+      }
+    }
+
+    // 2. REGULAR STREAM PROXY ROUTE
+    const targetUrl = reqUrl.searchParams.get("url");
     if (!targetUrl) return new Response("StreamSink CORS Proxy Online.", { status: 200 });
 
     try {
@@ -726,14 +863,10 @@ export default {
         "Referer": `https://${parsedTarget.hostname}/`
       };
 
-      if (request.headers.has("Range")) {
-        upstreamHeaders["Range"] = request.headers.get("Range");
-      }
+      if (request.headers.has("Range")) upstreamHeaders["Range"] = request.headers.get("Range");
 
       for (const [key, value] of request.headers.entries()) {
-        if (key.toLowerCase().startsWith("x-forward-")) {
-          upstreamHeaders[key.slice(10)] = value;
-        }
+        if (key.toLowerCase().startsWith("x-forward-")) upstreamHeaders[key.slice(10)] = value;
       }
 
       const jsonHeader = request.headers.get("X-Custom-Headers");
@@ -752,8 +885,7 @@ export default {
       return new Response(upstream.body, { status: upstream.status, headers });
     } catch (err) {
       return new Response("Upstream Fetch Error: " + err.message, {
-        status: 502,
-        headers: { "Access-Control-Allow-Origin": "*" }
+        status: 502, headers: { "Access-Control-Allow-Origin": "*" }
       });
     }
   }
@@ -1138,7 +1270,6 @@ const NetworkManager = {
     const opts = { ...options };
     const headers = new Headers(opts.headers || {});
 
-    // Automatically inject Custom Headers via X-Forward-* and X-Custom-Headers
     const custom = getCustomHeaders();
     const customObj = {};
     for (const [k, v] of Object.entries(custom)) {
@@ -1796,7 +1927,7 @@ class ExecutionCoordinator {
 
 /**
  * -----------------------------------------------------------------------------
- * 12. Backup & Restore System (Safe Selection & No Overwrite on Pick)
+ * 12. Backup & Restore System
  * -----------------------------------------------------------------------------
  */
 let autoBackupDebounceTimer = null;
@@ -1853,7 +1984,6 @@ async function selectBackupFolder() {
       document.getElementById("backupFolderStatus").innerText = `Target: ${backupDirectoryHandle.name}/${BACKUP_FILENAME}`;
       Logger.info(`Backup folder selected: ${backupDirectoryHandle.name}`);
 
-      // Check if an existing backup file already exists in the directory
       try {
         const existingFileHandle = await backupDirectoryHandle.getFileHandle(BACKUP_FILENAME, { create: false });
         const file = await existingFileHandle.getFile();
@@ -1864,12 +1994,9 @@ async function selectBackupFolder() {
           localStorage.setItem("streamsink_last_backup_time", parsed.timestamp);
           Logger.info(`Existing backup file detected from: ${new Date(parsed.timestamp).toLocaleString()}`);
         }
-      } catch {
-        // No existing backup file found in folder, which is normal
-      }
+      } catch {}
 
-      alert(`Backup folder linked: ${backupDirectoryHandle.name}/\nNo files were overwritten. Backups will save to ${BACKUP_FILENAME} when triggered.`);
-      // NOTE: Intentionally do NOT call performBackup() here to prevent overwriting existing files
+      alert(`Backup folder linked: ${backupDirectoryHandle.name}/\nNo files overwritten. Backups save to ${BACKUP_FILENAME} when triggered.`);
     } catch (e) {
       Logger.warn(`Folder selection cancelled: ${e.message}`);
     }
@@ -2078,7 +2205,239 @@ async function applyRestoredData(data) {
 
 /**
  * -----------------------------------------------------------------------------
- * 13. UI Controller & Streaming Engine
+ * 13. LinkForge Media Sniffer, DoH DNS & Geolocation Engine
+ * -----------------------------------------------------------------------------
+ */
+let extractedStreamsList = [];
+
+// DoH Resolver & Geolocation (from LinkForge)
+const NetworkInspector = {
+  async resolveDomainAndGeo(hostname) {
+    if (!hostname) throw new Error("Empty hostname provided");
+    const cleanHost = hostname.replace(/^https?:\/\//i, '').split('/')[0].split(':')[0].trim();
+
+    // 1. Google DNS-over-HTTPS
+    const dnsRes = await fetch(`https://dns.google/resolve?name=${encodeURIComponent(cleanHost)}&type=A`);
+    if (!dnsRes.ok) throw new Error("DNS lookup query failed");
+    const dnsData = await dnsRes.json();
+    if (!dnsData.Answer || dnsData.Answer.length === 0) throw new Error("Could not resolve A-record for host");
+
+    const ip = (dnsData.Answer.find(r => r.type === 1) || dnsData.Answer[0]).data;
+
+    // 2. Geolocation lookup via ipwho.is
+    const geoRes = await fetch(`https://ipwho.is/${encodeURIComponent(ip)}`);
+    const geo = await geoRes.json();
+    if (!geo.success) throw new Error("Geolocation failed for resolved IP");
+
+    const country = geo.country || "Unknown";
+    const city = geo.city || "Nearest Region";
+    const isp = geo.connection?.isp || geo.connection?.org || "N/A";
+
+    return {
+      hostname: cleanHost,
+      ip,
+      country: `${country}${geo.country_code ? ` (${geo.country_code})` : ''}`,
+      cityRegion: `${city}, ${geo.region || ''}`,
+      isp,
+      vpnRecommendation: `Connect VPN to <b>${country}</b> near <b>${city}</b> to minimize CDN routing latency.`
+    };
+  }
+};
+
+async function runDirectIpLookup(optionalDomain = null) {
+  const domain = optionalDomain || document.getElementById("directIpInput").value.trim();
+  if (!domain) return alert("Please enter a domain or URL.");
+
+  const btn = document.getElementById("btnInspectIp");
+  const container = document.getElementById("directIpContainer");
+  btn.disabled = true; btn.innerText = "...";
+
+  try {
+    const res = await NetworkInspector.resolveDomainAndGeo(domain);
+    container.style.display = "block";
+    container.innerHTML = `
+      <div class="ip-inspector-box">
+        <div class="ip-row"><span class="ip-label">Host:</span><span class="ip-val">${res.hostname}</span></div>
+        <div class="ip-row"><span class="ip-label">Server IP:</span><span class="ip-val" style="color:var(--cyan); font-weight:700;">${res.ip}</span></div>
+        <div class="ip-row"><span class="ip-label">Location:</span><span class="ip-val">${res.cityRegion}, ${res.country}</span></div>
+        <div class="ip-row"><span class="ip-label">Network / ISP:</span><span class="ip-val">${res.isp}</span></div>
+        <div class="vpn-tip-box">${res.vpnRecommendation}</div>
+      </div>
+    `;
+    Logger.info(`Resolved host ${res.hostname} -> ${res.ip} (${res.country})`);
+  } catch (err) {
+    container.style.display = "block";
+    container.innerHTML = `<div style="font-size:0.75rem; color:var(--danger); padding:6px 0;">⚠️ ${err.message}</div>`;
+  } finally {
+    btn.disabled = false; btn.innerText = "Inspect";
+  }
+}
+
+async function pasteToSniffer() {
+  try {
+    const text = await navigator.clipboard.readText();
+    if (text) document.getElementById("sniffWebpageUrl").value = text.trim();
+  } catch {
+    alert("Clipboard access denied. Paste directly into the box.");
+  }
+}
+
+// 1DM-Style Webpage Scraper & Stream Sniffer
+async function sniffWebPage() {
+  const pageUrl = document.getElementById("sniffWebpageUrl").value.trim();
+  if (!pageUrl) return alert("Please enter a webpage URL to sniff.");
+
+  const btn = document.getElementById("btnRunSniff");
+  btn.disabled = true; btn.innerText = "Sniffing...";
+  Logger.info(`Sniffing page streams: ${pageUrl}`);
+
+  try {
+    const workerInput = document.getElementById("workerUrl");
+    let worker = (workerInput && workerInput.value.trim()) || DEFAULT_WORKER_URL;
+    if (!worker.endsWith("/")) worker += "/";
+
+    // Call Cloudflare Worker sniff endpoint
+    const res = await fetch(`${worker}?sniff=${encodeURIComponent(pageUrl)}`);
+    const data = await res.json();
+
+    if (data.streams && data.streams.length > 0) {
+      ingestFoundStreams(data.streams);
+      Logger.info(`Found ${data.streams.length} stream(s) on ${pageUrl}`);
+      alert(`Sniffer success: Found ${data.streams.length} stream(s)!`);
+    } else {
+      Logger.warn("No direct streams found in page HTML. Trying client-side fallback...");
+      // Fallback: Fetch directly through proxy and regex search
+      const fallbackRes = await NetworkManager.fetchWithRetry(pageUrl);
+      const text = await fallbackRes.text();
+      const clientFound = extractMediaUrlsFromText(text);
+      if (clientFound.length > 0) {
+        ingestFoundStreams(clientFound);
+        alert(`Client sniffer extracted ${clientFound.length} stream(s)!`);
+      } else {
+        alert("No video streams detected. Play the video on the site and check network inspector or paste page source code into Bulk Ingestion below.");
+      }
+    }
+  } catch (err) {
+    Logger.error(`Sniffer error: ${err.message}`);
+    alert(`Sniffing failed: ${err.message}`);
+  } finally {
+    btn.disabled = false; btn.innerText = "⚡ Sniff Streams";
+  }
+}
+
+function extractMediaUrlsFromText(rawText) {
+  if (!rawText) return [];
+  const streamRegex = /(https?:\/\/[^\s"'<>\\]+?\.(?:m3u8|mp4|mpd)[^\s"'<>\\]*)/gi;
+  const matches = rawText.match(streamRegex) || [];
+  return [...new Set(matches.map(u => u.replace(/\\\/|\/+/g, (m) => m.startsWith("\\") ? "/" : m)))];
+}
+
+function parseRawTextMedia() {
+  const text = document.getElementById("rawTextarea").value;
+  const streams = extractMediaUrlsFromText(text);
+  if (!streams.length) return alert("No media links (.m3u8, .mp4, .mpd) found in the text.");
+  ingestFoundStreams(streams);
+  document.getElementById("rawTextarea").value = "";
+  alert(`Extracted ${streams.length} stream link(s)!`);
+}
+
+function handleSnifferFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const streams = extractMediaUrlsFromText(e.target.result);
+    if (!streams.length) return alert("No video stream links found in file.");
+    ingestFoundStreams(streams);
+    alert(`Imported ${streams.length} stream(s) from ${file.name}`);
+  };
+  reader.readAsText(file);
+}
+
+function ingestFoundStreams(urls) {
+  urls.forEach(url => {
+    if (!extractedStreamsList.some(s => s.url === url)) {
+      let type = "HLS";
+      if (url.includes(".mp4")) type = "MP4";
+      else if (url.includes(".mpd")) type = "DASH";
+
+      let domain = "";
+      try { domain = new URL(url).hostname; } catch {}
+
+      extractedStreamsList.push({ id: Date.now() + Math.random(), url, type, domain });
+    }
+  });
+  renderExtractedTable();
+}
+
+function renderExtractedTable() {
+  const tbody = document.getElementById("extractedTableBody");
+  const countEl = document.getElementById("detectedStreamsCount");
+  const badge = document.getElementById("snifferBadge");
+
+  countEl.innerText = extractedStreamsList.length;
+  badge.innerText = extractedStreamsList.length;
+  badge.style.display = extractedStreamsList.length ? "inline-block" : "none";
+
+  if (!extractedStreamsList.length) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" style="text-align:center; padding:18px; color:var(--text-muted);">
+          No media streams extracted yet. Paste a webpage link or raw code above.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = "";
+  extractedStreamsList.forEach((s, idx) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td style="color:var(--text-muted); font-size:0.7rem;">${idx + 1}</td>
+      <td><span class="type-badge ${s.type.toLowerCase()}">${s.type}</span></td>
+      <td>
+        <div class="stream-url-text" title="${s.url}">${s.url}</div>
+        <span style="font-size:0.65rem; color:var(--text-muted); font-family:var(--font-mono);">${s.domain}</span>
+      </td>
+      <td style="text-align:right; white-space:nowrap;">
+        <button class="btn btn-primary-action" style="padding:2px 7px; font-size:0.68rem;" onclick="transferToDownloader('${encodeURIComponent(s.url)}')">⬇ Load</button>
+        <button class="btn btn-secondary-flat" style="padding:2px 6px; font-size:0.68rem;" onclick="addStreamToQueue('${encodeURIComponent(s.url)}')">➕</button>
+        <button class="btn btn-secondary-flat" style="padding:2px 6px; font-size:0.68rem;" onclick="runDirectIpLookup('${s.domain}')">🔍</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function transferToDownloader(encodedUrl) {
+  const url = decodeURIComponent(encodedUrl);
+  document.getElementById("urlInput").value = url;
+  switchView("main");
+  analyzeManifest();
+}
+
+function addStreamToQueue(encodedUrl) {
+  const url = decodeURIComponent(encodedUrl);
+  batchQueue.push({ id: Date.now() + Math.random(), url, status: "Pending" });
+  renderBatchList();
+  alert("Stream added to Batch Queue!");
+}
+
+function clearExtractedStreams() {
+  extractedStreamsList = [];
+  renderExtractedTable();
+}
+
+function copyAllExtractedStreams() {
+  if (!extractedStreamsList.length) return alert("No streams to copy.");
+  const text = extractedStreamsList.map(s => s.url).join("\n");
+  navigator.clipboard.writeText(text).then(() => alert(`Copied ${extractedStreamsList.length} streams to clipboard!`));
+}
+
+/**
+ * -----------------------------------------------------------------------------
+ * 14. UI Controller & Streaming Engine
  * -----------------------------------------------------------------------------
  */
 let coordinator = null;
@@ -2120,11 +2479,13 @@ function toggleModal(id, show) { document.getElementById(id).style.display = sho
 function switchView(view) {
   document.querySelectorAll(".nav-item").forEach(t => t.classList.remove("active"));
   document.getElementById("mainView").style.display = view === "main" ? "flex" : "none";
+  document.getElementById("snifferView").style.display = view === "sniffer" ? "flex" : "none";
   document.getElementById("batchView").style.display = view === "batch" ? "flex" : "none";
   document.getElementById("historyView").style.display = view === "history" ? "flex" : "none";
   document.getElementById("settingsView").style.display = view === "settings" ? "flex" : "none";
 
   if (view === "main") document.getElementById("tabMain").classList.add("active");
+  if (view === "sniffer") document.getElementById("tabSniffer").classList.add("active");
   if (view === "batch") { document.getElementById("tabBatch").classList.add("active"); renderBatchList(); }
   if (view === "history") { document.getElementById("tabHistory").classList.add("active"); loadHistoryList(); }
   if (view === "settings") { document.getElementById("tabSettings").classList.add("active"); updateStorageStats(); }
