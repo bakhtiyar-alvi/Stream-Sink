@@ -1229,7 +1229,26 @@ function loadSavedCustomHeaders() {
   const el = document.getElementById("customHeadersInput");
   if (saved && el) el.value = saved;
 }
-window.addEventListener("DOMContentLoaded", loadSavedCustomHeaders);
+window.addEventListener("DOMContentLoaded", () => {
+  loadSavedCustomHeaders();
+
+  // Read URL passed from Bookmarklet (?url=...)
+  const params = new URLSearchParams(window.location.search);
+  const incomingUrl = params.get("url");
+  if (incomingUrl) {
+    const input = document.getElementById("urlInput");
+    if (input) {
+      input.value = decodeURIComponent(incomingUrl);
+      // Clean query string from browser bar without reloading
+      window.history.replaceState({}, document.title, window.location.pathname);
+      Logger.info("Stream URL received from Bookmarklet. Running auto-analysis...");
+      setTimeout(() => {
+        analyzeManifest();
+      }, 350);
+    }
+  }
+});
+
 
 async function selectDestinationFolder() {
   if ("showDirectoryPicker" in window) {
