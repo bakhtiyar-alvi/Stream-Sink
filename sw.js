@@ -1,10 +1,10 @@
 /**
- * StreamSink — Production Service Worker (v3)
+ * StreamSink — Production Service Worker (v11)
  * Provides offline PWA shell caching and strict video/proxy bypass.
  */
 
 // Bumped version forces Chrome to immediately install the updated index.html
-const CACHE_NAME = "streamsink-core-v10";
+const CACHE_NAME = "streamsink-core-v11";
 
 const PRECACHE_ASSETS = [
   "./",
