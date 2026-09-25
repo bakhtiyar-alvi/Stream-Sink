@@ -451,18 +451,25 @@
         </select>
       </div>
 
-      <!-- Custom Trim -->
-      <div class="selectors-row" id="customRangeGroup">
-        <div class="field-box">
-          <div class="field-label">Start Segment</div>
-          <input type="number" id="rangeStartInput" min="1" value="1" onchange="updateRangePreview()" />
+      <!-- Duration & Timestamp Cutter -->
+      <div id="customRangeGroup" style="display: flex; flex-direction: column; gap: 6px;">
+        <div class="selectors-row">
+          <div class="field-box">
+            <div class="field-label">⏱️ Start Time (HH:MM:SS)</div>
+            <input type="text" id="trimStartTime" placeholder="00:00:00" value="00:00:00" oninput="onTimeTrimInput()" />
+          </div>
+          <div class="field-box">
+            <div class="field-label">⏱️ End Time (HH:MM:SS)</div>
+            <input type="text" id="trimEndTime" placeholder="00:00:00" oninput="onTimeTrimInput()" />
+          </div>
         </div>
-        <div class="field-box">
-          <div class="field-label">End Segment</div>
-          <input type="number" id="rangeEndInput" min="1" value="1" onchange="updateRangePreview()" />
-        </div>
+
+        <!-- Hidden segment registers (auto-synced) -->
+        <input type="hidden" id="rangeStartInput" value="1" />
+        <input type="hidden" id="rangeEndInput" value="1" />
+
+        <div id="rangePreviewText" style="font-size: 0.72rem; color: #38bdf8; line-height: 1.4;"></div>
       </div>
-      <div id="rangePreviewText" style="font-size: 0.72rem; color: #38bdf8;"></div>
 
       <!-- Resume Notification Banner -->
       <div class="resume-box" id="cachedChunksBanner" style="display: none;">
@@ -838,7 +845,7 @@ export default {
         const html = await pageRes.text();
         const streamRegex = /(https?:\/\/[^"'\s\\]+?\.(?:m3u8|mp4|mpd)[^"'\s\\]*)/gi;
         const matches = [...new Set(html.match(streamRegex) || [])];
-        const cleaned = matches.map(u => u.replace(/\\\/g, "/"));
+        const cleaned = matches.map(u => u.split("\\/").join("/"));
 
         return new Response(JSON.stringify({ target: sniffPageUrl, streams: cleaned }), {
           headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
@@ -1843,7 +1850,6 @@ class ExecutionCoordinator {
           const fetchStart = performance.now();
           try {
             const fetchOpts = { signal };
-            // Forward byte-range headers (critical for beeg.com and segmented files)
             if (seg.byteRange) {
               fetchOpts.headers = { "Range": `bytes=${seg.byteRange.start}-${seg.byteRange.end}` };
             }
@@ -1885,7 +1891,7 @@ class ExecutionCoordinator {
           const chunk = buffer.get(nextProcess);
           buffer.delete(nextProcess);
 
-          // Auto-sniff container format on first chunk: 0x47 = MPEG-TS, otherwise native MP4
+          // Auto-sniff container format: 0x47 = MPEG-TS, otherwise native MP4/fMP4
           if (isTsContainer === null && this.actionType === "video_mp4" && !this.initUri) {
             isTsContainer = (chunk[0] === 0x47);
             if (!isTsContainer) {
@@ -2576,7 +2582,6 @@ async function analyzeManifest() {
 
   Logger.info("Inspecting media source...");
   try {
-    // Exact separation: links ending in or containing .m3u8 are ALWAYS treated as HLS
     const cleanUrl = url.split("?")[0].toLowerCase();
     const isHls = cleanUrl.endsWith(".m3u8") || url.toLowerCase().includes(".m3u8");
     const isDirectMp4 = !isHls && (cleanUrl.endsWith(".mp4") || url.toLowerCase().includes(".mp4"));
@@ -2621,7 +2626,7 @@ async function analyzeManifest() {
     }
 
     // HLS Playlist Branch (including .mp4.m3u8 byte-range playlists)
-    document.getElementById("customRangeGroup").style.display = "grid";
+    document.getElementById("customRangeGroup").style.display = "flex";
     const res = await NetworkManager.fetchWithRetry(url);
     const parsed = HLSParser.parse(await res.text(), url);
 
@@ -2696,30 +2701,89 @@ async function inspectRendition(url) {
   } catch {}
 }
 
+/**
+ * -----------------------------------------------------------------------------
+ * Duration Cutter & Timestamp Converter
+ * -----------------------------------------------------------------------------
+ */
+function parseTimeToSeconds(timeStr) {
+  if (!timeStr) return 0;
+  const parts = timeStr.trim().split(":").map(Number);
+  if (parts.some(isNaN)) return 0;
+  if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+  if (parts.length === 2) return parts[0] * 60 + parts[1];
+  if (parts.length === 1) return parts[0];
+  return 0;
+}
+
 function setupDurationAndRange(media) {
   activeParsedMedia = media;
   const count = media.segments.length;
-  const dur = formatSeconds(media.totalSeconds);
-  document.getElementById("specDuration").innerText = dur;
+  const totalSec = media.totalSeconds;
+  const durFormatted = formatSeconds(totalSec);
+
+  document.getElementById("specDuration").innerText = durFormatted;
   document.getElementById("specSegments").innerText = count.toLocaleString();
   document.getElementById("specEncryption").innerText = media.segments.some(s => s.encryption) ? "AES-128" : "None";
 
-  const startInp = document.getElementById("rangeStartInput");
-  const endInp = document.getElementById("rangeEndInput");
-  startInp.max = count; startInp.value = "1";
-  endInp.max = count; endInp.value = count;
-  updateRangePreview();
+  // Pre-fill Start and End Times with the full video timeline
+  document.getElementById("trimStartTime").value = "00:00:00";
+  document.getElementById("trimEndTime").value = durFormatted;
+
+  onTimeTrimInput();
 }
 
-function updateRangePreview() {
-  if (!activeParsedMedia) return;
-  const total = activeParsedMedia.segments.length;
-  let start = parseInt(document.getElementById("rangeStartInput").value, 10) || 1;
-  let end = parseInt(document.getElementById("rangeEndInput").value, 10) || total;
-  const count = Math.max(1, (end - start) + 1);
-  const dur = activeParsedMedia.segments.slice(start - 1, end).reduce((a, b) => a + b.duration, 0);
-  document.getElementById("rangePreviewText").innerText = `Trim Range: Segments ${start}–${end} (${count} chunks • ~${formatSeconds(dur)})`;
+function onTimeTrimInput() {
+  if (!activeParsedMedia || !activeParsedMedia.segments.length) return;
+
+  const totalSec = activeParsedMedia.totalSeconds;
+  const totalSegments = activeParsedMedia.segments.length;
+
+  let startSec = parseTimeToSeconds(document.getElementById("trimStartTime").value);
+  let endSec = parseTimeToSeconds(document.getElementById("trimEndTime").value);
+
+  // Boundary safety checks
+  if (startSec < 0) startSec = 0;
+  if (endSec <= 0 || endSec > totalSec) endSec = totalSec;
+  if (startSec > endSec) startSec = Math.max(0, endSec - 5);
+
+  let cumulative = 0;
+  let startIdx = 1;
+  let endIdx = totalSegments;
+  let foundStart = false;
+
+  // Map requested seconds to exact segment indexes
+  for (let i = 0; i < totalSegments; i++) {
+    const segDur = activeParsedMedia.segments[i].duration;
+    const segEnd = cumulative + segDur;
+
+    if (!foundStart && segEnd > startSec) {
+      startIdx = i + 1;
+      foundStart = true;
+    }
+    if (cumulative < endSec) {
+      endIdx = i + 1;
+    }
+    cumulative = segEnd;
+  }
+
+  // Save the calculated segment indices into hidden inputs for the downloader
+  document.getElementById("rangeStartInput").value = startIdx;
+  document.getElementById("rangeEndInput").value = endIdx;
+
+  // Calculate actual cut duration based on keyframe boundaries
+  const selectedSegments = activeParsedMedia.segments.slice(startIdx - 1, endIdx);
+  const actualDuration = selectedSegments.reduce((acc, s) => acc + s.duration, 0);
+  const chunkCount = selectedSegments.length;
+
+  document.getElementById("rangePreviewText").innerHTML = `
+    ✂️ <b>Selected Clip:</b> ${formatSeconds(startSec)} → ${formatSeconds(endSec)} 
+    <span style="color:#94a3b8;">(~${formatSeconds(actualDuration)} total)</span><br>
+    <span style="color:#64748b; font-size:0.68rem;">Mapped to chunks #${startIdx}–#${endIdx} (${chunkCount} segments)</span>
+  `;
 }
+
+const updateRangePreview = onTimeTrimInput;
 
 async function clearActiveStreamCache() {
   const url = document.getElementById("urlInput").value.trim();
