@@ -4,7 +4,7 @@
  * Strictly bypasses media streams, proxy endpoints, and Range requests to prevent memory exhaustion.
  */
 
-const CACHE_NAME = "streamsink-cache-v13";
+const CACHE_NAME = "streamsink-cache-v14";
 
 // App shell and CDN streaming dependencies to cache for offline availability
 const ASSETS_TO_CACHE = [
